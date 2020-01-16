@@ -1,0 +1,2134 @@
+{
+  "contractName": "Proposal",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ideaID",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogApproveIdea",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ideaID",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogNewIdea",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ideaID",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogRejectIdea",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "problem",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "solution",
+          "type": "string"
+        }
+      ],
+      "name": "submit",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "reject",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "vote",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "close",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "applyForApprover",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "applyForVoter",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"ideaID\",\"type\":\"uint256\"}],\"name\":\"LogApproveIdea\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"ideaID\",\"type\":\"uint256\"}],\"name\":\"LogNewIdea\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"ideaID\",\"type\":\"uint256\"}],\"name\":\"LogRejectIdea\",\"type\":\"event\"},{\"constant\":false,\"inputs\":[],\"name\":\"applyForApprover\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"applyForVoter\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"}],\"name\":\"close\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"}],\"name\":\"reject\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"string\",\"name\":\"title\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"problem\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"solution\",\"type\":\"string\"}],\"name\":\"submit\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"}],\"name\":\"vote\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Joseph Nicholas R. Alcantara\",\"methods\":{\"applyForApprover()\":{\"details\":\"This function marks the @msg.sender to be an approver and added to the list of approvers. Note: Approvers can't can't be voters and can't be applicants.*\"},\"applyForVoter()\":{\"details\":\"This function marks the @msg.sender to be an voter and added to the list of voters. Note: Voters can't can't be approvers but can be applicants.*\"},\"approve(uint256)\":{\"details\":\"This function approves the idea by the randomly selected approver.*\"},\"reject(uint256)\":{\"details\":\"This function rejects the idea by the approver.*\"},\"submit(string,string,string,string)\":{\"details\":\"This function creates a new idea to apply for innovation approval.\",\"params\":{\"description\":\"Description or overview of the proposal\",\"problem\":\"Problem it seeks to address.\",\"solution\":\"Proposed solution.\",\"title\":\"Title of proposal\"},\"return\":\"true - for successful proposal*\"}},\"title\":\"An interface for different kinds of proposals\"},\"userdoc\":{\"methods\":{},\"notice\":\"This contract is for educational purposes only fot the Consensys 2019-2020 bootcamp\"}},\"settings\":{\"compilationTarget\":{\"/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/Proposal.sol\":\"Proposal\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/Proposal.sol\":{\"keccak256\":\"0x79578982ccfbfda3873165c3de32b333b48218e38d069d8108a27f81dbcd3afa\",\"urls\":[\"bzz-raw://2387ff9c62473430831ea0a93de07545a8454bd11f13a1bf4f9989bd35841eb6\",\"dweb:/ipfs/QmVqQfm4PFjXbNws81quxWDyUFBNRojzXwVKjP46rGBnTE\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^ 0.5.0;\n\n/// @title An interface for different kinds of proposals\n/// @author Joseph Nicholas R. Alcantara\n/// @notice This contract is for educational purposes only fot the Consensys 2019-2020 bootcamp\ninterface Proposal {\n\n    /**\n     * @dev State of the proposal\n     **/\n    enum State {\n        Submitted,\n        Review,\n        Rejected,\n        Approved,\n        Closed\n    }\n\n    /**\n     * @dev Data structure for Proposal details\n     **/\n    struct ProposalDetails {\n        string title;\n        string description;\n        string problem;\n        string solution;\n        address payable applicant;\n        address payable[] approver;\n        mapping(address => bool) voted;\n        uint votes;\n        uint approvals;\n        bytes32 proof;\n        State status;\n    }\n\n    // Events\n    event LogNewIdea(uint ideaID);\n    event LogApproveIdea(uint ideaID);\n    event LogRejectIdea(uint ideaID);\n\n    /** \n     * @dev This function creates a new idea to apply for innovation approval.\n     * @param title Title of proposal\n     * @param description Description or overview of the proposal\n     * @param problem Problem it seeks to address.\n     * @param solution Proposed solution.\n     * @return true - for successful proposal\n     **/\n    function submit(string calldata title, string calldata description, string calldata problem, string calldata solution) external returns(bool);\n\n    /**\n     * @dev This function approves the idea by the randomly selected approver.\n     **/\n    function approve(uint id) external payable;\n\n    /**\n     * @dev This function rejects the idea by the approver.\n     **/\n    function reject(uint id) external;\n\n    function vote(uint id) external;\n\n    function close(uint id) external;\n\n    /**\n     * @dev This function marks the @msg.sender to be an approver and added to the list of approvers.\n     * Note: Approvers can't can't be voters and can't be applicants.\n     **/\n    function applyForApprover() external;\n\n    /**\n     * @dev This function marks the @msg.sender to be an voter and added to the list of voters.\n     * Note: Voters can't can't be approvers but can be applicants.\n     **/\n    function applyForVoter() external;\n}",
+  "sourcePath": "/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/Proposal.sol",
+  "ast": {
+    "absolutePath": "/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/Proposal.sol",
+    "exportedSymbols": {
+      "Proposal": [
+        796
+      ]
+    },
+    "id": 797,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 712,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:3"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@title An interface for different kinds of proposals\n @author Joseph Nicholas R. Alcantara\n @notice This contract is for educational purposes only fot the Consensys 2019-2020 bootcamp",
+        "fullyImplemented": false,
+        "id": 796,
+        "linearizedBaseContracts": [
+          796
+        ],
+        "name": "Proposal",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "Proposal.State",
+            "id": 718,
+            "members": [
+              {
+                "id": 713,
+                "name": "Submitted",
+                "nodeType": "EnumValue",
+                "src": "318:9:3"
+              },
+              {
+                "id": 714,
+                "name": "Review",
+                "nodeType": "EnumValue",
+                "src": "337:6:3"
+              },
+              {
+                "id": 715,
+                "name": "Rejected",
+                "nodeType": "EnumValue",
+                "src": "353:8:3"
+              },
+              {
+                "id": 716,
+                "name": "Approved",
+                "nodeType": "EnumValue",
+                "src": "371:8:3"
+              },
+              {
+                "id": 717,
+                "name": "Closed",
+                "nodeType": "EnumValue",
+                "src": "389:6:3"
+              }
+            ],
+            "name": "State",
+            "nodeType": "EnumDefinition",
+            "src": "297:104:3"
+          },
+          {
+            "canonicalName": "Proposal.ProposalDetails",
+            "id": 744,
+            "members": [
+              {
+                "constant": false,
+                "id": 720,
+                "name": "title",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "505:12:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 719,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "505:6:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 722,
+                "name": "description",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "527:18:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 721,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "527:6:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 724,
+                "name": "problem",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "555:14:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 723,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "555:6:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 726,
+                "name": "solution",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "579:15:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 725,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "579:6:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 728,
+                "name": "applicant",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "604:25:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address_payable",
+                  "typeString": "address payable"
+                },
+                "typeName": {
+                  "id": 727,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "604:15:3",
+                  "stateMutability": "payable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address_payable",
+                    "typeString": "address payable"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 731,
+                "name": "approver",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "639:26:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_address_payable_$dyn_storage_ptr",
+                  "typeString": "address payable[]"
+                },
+                "typeName": {
+                  "baseType": {
+                    "id": 729,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "639:15:3",
+                    "stateMutability": "payable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address_payable",
+                      "typeString": "address payable"
+                    }
+                  },
+                  "id": 730,
+                  "length": null,
+                  "nodeType": "ArrayTypeName",
+                  "src": "639:17:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_payable_$dyn_storage_ptr",
+                    "typeString": "address payable[]"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 735,
+                "name": "voted",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "675:30:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
+                  "typeString": "mapping(address => bool)"
+                },
+                "typeName": {
+                  "id": 734,
+                  "keyType": {
+                    "id": 732,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "683:7:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "675:24:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
+                    "typeString": "mapping(address => bool)"
+                  },
+                  "valueType": {
+                    "id": 733,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "694:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 737,
+                "name": "votes",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "715:10:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 736,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "715:4:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 739,
+                "name": "approvals",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "735:14:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 738,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "735:4:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 741,
+                "name": "proof",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "759:13:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                },
+                "typeName": {
+                  "id": 740,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "759:7:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 743,
+                "name": "status",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "782:12:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_State_$718",
+                  "typeString": "enum Proposal.State"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 742,
+                  "name": "State",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 718,
+                  "src": "782:5:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_State_$718",
+                    "typeString": "enum Proposal.State"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "ProposalDetails",
+            "nodeType": "StructDefinition",
+            "scope": 796,
+            "src": "472:329:3",
+            "visibility": "public"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 748,
+            "name": "LogNewIdea",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 747,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 746,
+                  "indexed": false,
+                  "name": "ideaID",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 748,
+                  "src": "838:11:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 745,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "838:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "837:13:3"
+            },
+            "src": "821:30:3"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 752,
+            "name": "LogApproveIdea",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 751,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 750,
+                  "indexed": false,
+                  "name": "ideaID",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 752,
+                  "src": "877:11:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 749,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "877:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "876:13:3"
+            },
+            "src": "856:34:3"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 756,
+            "name": "LogRejectIdea",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 755,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 754,
+                  "indexed": false,
+                  "name": "ideaID",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 756,
+                  "src": "915:11:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 753,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "915:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "914:13:3"
+            },
+            "src": "895:33:3"
+          },
+          {
+            "body": null,
+            "documentation": "@dev This function creates a new idea to apply for innovation approval.\n@param title Title of proposal\n@param description Description or overview of the proposal\n@param problem Problem it seeks to address.\n@param solution Proposed solution.\n@return true - for successful proposal*",
+            "id": 769,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "submit",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 765,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 758,
+                  "name": "title",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 769,
+                  "src": "1290:21:3",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 757,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1290:6:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 760,
+                  "name": "description",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 769,
+                  "src": "1313:27:3",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 759,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1313:6:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 762,
+                  "name": "problem",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 769,
+                  "src": "1342:23:3",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 761,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1342:6:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 764,
+                  "name": "solution",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 769,
+                  "src": "1367:24:3",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 763,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1367:6:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1289:103:3"
+            },
+            "returnParameters": {
+              "id": 768,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 767,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 769,
+                  "src": "1410:4:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 766,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1410:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1409:6:3"
+            },
+            "scope": 796,
+            "src": "1274:142:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev This function approves the idea by the randomly selected approver.*",
+            "id": 774,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "approve",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 772,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 771,
+                  "name": "id",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 774,
+                  "src": "1535:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 770,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1535:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1534:9:3"
+            },
+            "returnParameters": {
+              "id": 773,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1560:0:3"
+            },
+            "scope": 796,
+            "src": "1518:43:3",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev This function rejects the idea by the approver.*",
+            "id": 779,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "reject",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 777,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 776,
+                  "name": "id",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 779,
+                  "src": "1660:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 775,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1660:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1659:9:3"
+            },
+            "returnParameters": {
+              "id": 778,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1677:0:3"
+            },
+            "scope": 796,
+            "src": "1644:34:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 784,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "vote",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 782,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 781,
+                  "name": "id",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 784,
+                  "src": "1698:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 780,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1698:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1697:9:3"
+            },
+            "returnParameters": {
+              "id": 783,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1715:0:3"
+            },
+            "scope": 796,
+            "src": "1684:32:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 789,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "close",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 787,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 786,
+                  "name": "id",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 789,
+                  "src": "1737:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 785,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1737:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1736:9:3"
+            },
+            "returnParameters": {
+              "id": 788,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1754:0:3"
+            },
+            "scope": 796,
+            "src": "1722:33:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev This function marks the @msg.sender to be an approver and added to the list of approvers.\nNote: Approvers can't can't be voters and can't be applicants.*",
+            "id": 792,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "applyForApprover",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 790,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1975:2:3"
+            },
+            "returnParameters": {
+              "id": 791,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1986:0:3"
+            },
+            "scope": 796,
+            "src": "1950:37:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev This function marks the @msg.sender to be an voter and added to the list of voters.\nNote: Voters can't can't be approvers but can be applicants.*",
+            "id": 795,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "applyForVoter",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 793,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2196:2:3"
+            },
+            "returnParameters": {
+              "id": 794,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2207:0:3"
+            },
+            "scope": 796,
+            "src": "2174:34:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 797,
+        "src": "220:1990:3"
+      }
+    ],
+    "src": "0:2210:3"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/Proposal.sol",
+    "exportedSymbols": {
+      "Proposal": [
+        796
+      ]
+    },
+    "id": 797,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 712,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:3"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@title An interface for different kinds of proposals\n @author Joseph Nicholas R. Alcantara\n @notice This contract is for educational purposes only fot the Consensys 2019-2020 bootcamp",
+        "fullyImplemented": false,
+        "id": 796,
+        "linearizedBaseContracts": [
+          796
+        ],
+        "name": "Proposal",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "Proposal.State",
+            "id": 718,
+            "members": [
+              {
+                "id": 713,
+                "name": "Submitted",
+                "nodeType": "EnumValue",
+                "src": "318:9:3"
+              },
+              {
+                "id": 714,
+                "name": "Review",
+                "nodeType": "EnumValue",
+                "src": "337:6:3"
+              },
+              {
+                "id": 715,
+                "name": "Rejected",
+                "nodeType": "EnumValue",
+                "src": "353:8:3"
+              },
+              {
+                "id": 716,
+                "name": "Approved",
+                "nodeType": "EnumValue",
+                "src": "371:8:3"
+              },
+              {
+                "id": 717,
+                "name": "Closed",
+                "nodeType": "EnumValue",
+                "src": "389:6:3"
+              }
+            ],
+            "name": "State",
+            "nodeType": "EnumDefinition",
+            "src": "297:104:3"
+          },
+          {
+            "canonicalName": "Proposal.ProposalDetails",
+            "id": 744,
+            "members": [
+              {
+                "constant": false,
+                "id": 720,
+                "name": "title",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "505:12:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 719,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "505:6:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 722,
+                "name": "description",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "527:18:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 721,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "527:6:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 724,
+                "name": "problem",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "555:14:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 723,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "555:6:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 726,
+                "name": "solution",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "579:15:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 725,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "579:6:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 728,
+                "name": "applicant",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "604:25:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address_payable",
+                  "typeString": "address payable"
+                },
+                "typeName": {
+                  "id": 727,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "604:15:3",
+                  "stateMutability": "payable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address_payable",
+                    "typeString": "address payable"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 731,
+                "name": "approver",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "639:26:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_address_payable_$dyn_storage_ptr",
+                  "typeString": "address payable[]"
+                },
+                "typeName": {
+                  "baseType": {
+                    "id": 729,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "639:15:3",
+                    "stateMutability": "payable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address_payable",
+                      "typeString": "address payable"
+                    }
+                  },
+                  "id": 730,
+                  "length": null,
+                  "nodeType": "ArrayTypeName",
+                  "src": "639:17:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_payable_$dyn_storage_ptr",
+                    "typeString": "address payable[]"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 735,
+                "name": "voted",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "675:30:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
+                  "typeString": "mapping(address => bool)"
+                },
+                "typeName": {
+                  "id": 734,
+                  "keyType": {
+                    "id": 732,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "683:7:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "675:24:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
+                    "typeString": "mapping(address => bool)"
+                  },
+                  "valueType": {
+                    "id": 733,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "694:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 737,
+                "name": "votes",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "715:10:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 736,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "715:4:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 739,
+                "name": "approvals",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "735:14:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 738,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "735:4:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 741,
+                "name": "proof",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "759:13:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                },
+                "typeName": {
+                  "id": 740,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "759:7:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 743,
+                "name": "status",
+                "nodeType": "VariableDeclaration",
+                "scope": 744,
+                "src": "782:12:3",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_State_$718",
+                  "typeString": "enum Proposal.State"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 742,
+                  "name": "State",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 718,
+                  "src": "782:5:3",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_State_$718",
+                    "typeString": "enum Proposal.State"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "ProposalDetails",
+            "nodeType": "StructDefinition",
+            "scope": 796,
+            "src": "472:329:3",
+            "visibility": "public"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 748,
+            "name": "LogNewIdea",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 747,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 746,
+                  "indexed": false,
+                  "name": "ideaID",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 748,
+                  "src": "838:11:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 745,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "838:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "837:13:3"
+            },
+            "src": "821:30:3"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 752,
+            "name": "LogApproveIdea",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 751,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 750,
+                  "indexed": false,
+                  "name": "ideaID",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 752,
+                  "src": "877:11:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 749,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "877:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "876:13:3"
+            },
+            "src": "856:34:3"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 756,
+            "name": "LogRejectIdea",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 755,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 754,
+                  "indexed": false,
+                  "name": "ideaID",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 756,
+                  "src": "915:11:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 753,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "915:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "914:13:3"
+            },
+            "src": "895:33:3"
+          },
+          {
+            "body": null,
+            "documentation": "@dev This function creates a new idea to apply for innovation approval.\n@param title Title of proposal\n@param description Description or overview of the proposal\n@param problem Problem it seeks to address.\n@param solution Proposed solution.\n@return true - for successful proposal*",
+            "id": 769,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "submit",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 765,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 758,
+                  "name": "title",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 769,
+                  "src": "1290:21:3",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 757,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1290:6:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 760,
+                  "name": "description",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 769,
+                  "src": "1313:27:3",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 759,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1313:6:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 762,
+                  "name": "problem",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 769,
+                  "src": "1342:23:3",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 761,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1342:6:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 764,
+                  "name": "solution",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 769,
+                  "src": "1367:24:3",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 763,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1367:6:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1289:103:3"
+            },
+            "returnParameters": {
+              "id": 768,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 767,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 769,
+                  "src": "1410:4:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 766,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1410:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1409:6:3"
+            },
+            "scope": 796,
+            "src": "1274:142:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev This function approves the idea by the randomly selected approver.*",
+            "id": 774,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "approve",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 772,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 771,
+                  "name": "id",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 774,
+                  "src": "1535:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 770,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1535:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1534:9:3"
+            },
+            "returnParameters": {
+              "id": 773,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1560:0:3"
+            },
+            "scope": 796,
+            "src": "1518:43:3",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev This function rejects the idea by the approver.*",
+            "id": 779,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "reject",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 777,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 776,
+                  "name": "id",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 779,
+                  "src": "1660:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 775,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1660:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1659:9:3"
+            },
+            "returnParameters": {
+              "id": 778,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1677:0:3"
+            },
+            "scope": 796,
+            "src": "1644:34:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 784,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "vote",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 782,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 781,
+                  "name": "id",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 784,
+                  "src": "1698:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 780,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1698:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1697:9:3"
+            },
+            "returnParameters": {
+              "id": 783,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1715:0:3"
+            },
+            "scope": 796,
+            "src": "1684:32:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 789,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "close",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 787,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 786,
+                  "name": "id",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 789,
+                  "src": "1737:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 785,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1737:4:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1736:9:3"
+            },
+            "returnParameters": {
+              "id": 788,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1754:0:3"
+            },
+            "scope": 796,
+            "src": "1722:33:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev This function marks the @msg.sender to be an approver and added to the list of approvers.\nNote: Approvers can't can't be voters and can't be applicants.*",
+            "id": 792,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "applyForApprover",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 790,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1975:2:3"
+            },
+            "returnParameters": {
+              "id": 791,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1986:0:3"
+            },
+            "scope": 796,
+            "src": "1950:37:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev This function marks the @msg.sender to be an voter and added to the list of voters.\nNote: Voters can't can't be approvers but can be applicants.*",
+            "id": 795,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "applyForVoter",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 793,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2196:2:3"
+            },
+            "returnParameters": {
+              "id": 794,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2207:0:3"
+            },
+            "scope": 796,
+            "src": "2174:34:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 797,
+        "src": "220:1990:3"
+      }
+    ],
+    "src": "0:2210:3"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.12+commit.7709ece9.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.20",
+  "updatedAt": "2020-01-14T15:09:49.586Z",
+  "devdoc": {
+    "author": "Joseph Nicholas R. Alcantara",
+    "methods": {
+      "applyForApprover()": {
+        "details": "This function marks the @msg.sender to be an approver and added to the list of approvers. Note: Approvers can't can't be voters and can't be applicants.*"
+      },
+      "applyForVoter()": {
+        "details": "This function marks the @msg.sender to be an voter and added to the list of voters. Note: Voters can't can't be approvers but can be applicants.*"
+      },
+      "approve(uint256)": {
+        "details": "This function approves the idea by the randomly selected approver.*"
+      },
+      "reject(uint256)": {
+        "details": "This function rejects the idea by the approver.*"
+      },
+      "submit(string,string,string,string)": {
+        "details": "This function creates a new idea to apply for innovation approval.",
+        "params": {
+          "description": "Description or overview of the proposal",
+          "problem": "Problem it seeks to address.",
+          "solution": "Proposed solution.",
+          "title": "Title of proposal"
+        },
+        "return": "true - for successful proposal*"
+      }
+    },
+    "title": "An interface for different kinds of proposals"
+  },
+  "userdoc": {
+    "methods": {},
+    "notice": "This contract is for educational purposes only fot the Consensys 2019-2020 bootcamp"
+  }
+}
