@@ -1,4 +1,4 @@
-const CityImprovement = artifacts.require("./CityImprovement.sol");
+const CityImprovement = artifacts.require("./city/CityImprovement.sol");
 let catchRevert = require("./exceptionsHelpers.js").catchRevert
 const BN = web3.utils.BN
 
@@ -107,6 +107,80 @@ contract("CityImprovement", accounts => {
       assert.equal(result["votes"], 2, "There should be 2 vote.");
       assert.notEqual(result["proof"], 0x0, "Proposal has now proof of approval.");
       assert.equal(balance, new BN(prevBalance).add(new BN(REWARD_AMOUNT).mul(new BN(result["votes"]))).toString(), "Applicant balance greater than the previous.");
+
+      await cip.close(0, {from: owner});
+
+      result = await cip.readProposal(0);
+      assert.equal(result["status"], 4, "Owner already closed");
+    });
+
+    it("proposal application, reject, and closure", async () => {
+      // This will be the 2nd proposal in the improvement list.
+      cip.submit("Blockchain voting system", 
+        "Ethereum powered blockchain system for private and secured election", 
+        "Broken election rules and easy to manipulate", 
+        "Fair election", 
+        {from: citizenApplicant});
+
+      await cip.applyForVoter({from: citizenVoter});
+      await cip.applyForVoter({from: voter});
+
+      await cip.vote(0, {from: citizenVoter});
+      await cip.vote(0, {from: voter});
+
+      var prevBalance = await web3.eth.getBalance(citizenApplicant);
+      await cip.applyForApprover({from: congressmanApprover});
+      await cip.reject(0, {from: congressmanApprover});
+
+      var result = await cip.readProposal(0);
+      
+      var balance = await web3.eth.getBalance(citizenApplicant);
+      assert.equal(result["approver"][0], congressmanApprover, "Approver rejected.");
+      assert.equal(result["status"], 2, "Status should be rejected.");
+      assert.equal(result["votes"], 2, "There should be 2 vote.");
+      assert.equal(result["proof"], 0x0, "Proposal should have no proof of approval.");
+      assert.equal(balance, new BN(prevBalance), "Applicant balance greater than the previous.");
+
+      await cip.close(0, {from: owner});
+
+      result = await cip.readProposal(0);
+      assert.equal(result["status"], 4, "Owner already closed");
+    });
+
+    it("2 proposal application, 1 reject, 1 approve and 2 closure", async () => {
+      // This will be the 2nd proposal in the improvement list.
+      cip.submit("Blockchain voting system", 
+        "Ethereum powered blockchain system for private and secured election", 
+        "Broken election rules and easy to manipulate", 
+        "Fair election", 
+        {from: citizenApplicant});
+
+      cip.submit("P2P voting system", 
+        "Corda powered blockchain system for private and secured election", 
+        "Broken election rules and easy to manipulate", 
+        "Fair election", 
+        {from: applicant});
+
+      await cip.applyForVoter({from: citizenVoter});
+      await cip.applyForVoter({from: voter});
+
+      await cip.vote(0, {from: citizenVoter});
+      await cip.vote(0, {from: voter});
+
+      var prevBalance = await web3.eth.getBalance(citizenApplicant);
+      await cip.applyForApprover({from: congressmanApprover});
+      await cip.reject(0, {from: congressmanApprover});
+
+      var result = await cip.readProposal(0);
+      var count = await cip.getNumberOfProposals({from: owner});
+      
+      var balance = await web3.eth.getBalance(citizenApplicant);
+      assert.equal(count, 2, "2 Proposals are applied.");
+      assert.equal(result["approver"][0], congressmanApprover, "Approver rejected.");
+      assert.equal(result["status"], 2, "Status should be rejected.");
+      assert.equal(result["votes"], 2, "There should be 2 vote.");
+      assert.equal(result["proof"], 0x0, "Proposal should have no proof of approval.");
+      assert.equal(balance, new BN(prevBalance), "Applicant balance greater than the previous.");
 
       await cip.close(0, {from: owner});
 

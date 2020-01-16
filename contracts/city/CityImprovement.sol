@@ -1,31 +1,23 @@
 pragma solidity ^0.5.0;
 
-import "./Proposal.sol";
-import "./Proof.sol";
+import "../proposal/Proposal.sol";
+import "../utils/Proof.sol";
+import "@openzeppelin/contracts/payment/PullPayment.sol";
 import "@openzeppelin/contracts/ownership/Ownable.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/lifecycle/Pausable.sol";
 
-contract CityImprovement is Proposal, Ownable {
-    
-    // FYI How to retrieve the idea and for showing to UI.
-    // FYI modifier to restrict certain functions from approvers/editors.
-    // FYI modifier to only allow applicants for applying innovation ideas
-    // FYI should have a read proposal
-    // TODO should have applyForApprover(cannot propose and cannot vote) and applyAsVoter(cannot vote own proposal)
-    // TODO can only apply once(application must be approved first before application)
-    // TODO can only approve once(cannot approved alredy approved proposal)
-    // TODO can only vote once.
-    // TODO have a poll
-    // TODO add function voteForIdea
-    // TODO highest vote count should have highest priority
-    // FYI can't vote when already approved or when status is in progress.
-    // FYI approver role & voter role.
-    // FYI one vote payable and once approved the applicant/approver can withdraw the amount
-    // FYI try to create another proposer type(travel budget proposal), add destination.
-    // Propsal can have image(destination/blueprint) time stamped
-    // make the proof of existence as library
-    
+/// @title Simulation for City improvment proposal system.
+/// @author Joseph Nicholas R. Alcantara
+/// @notice This contract for educational purposes only, 
+///         this will simulate a City improvement which 
+///         is a type of legal proposal.
+/// @dev All of the functionalities are experimental but are already unit tested.
+contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
+        
+    using SafeMath for uint;
+
     // address of patent applicants.
-    // address should automatically marked as applicants if they submit a proposal.
     mapping (address => bool) public applicants;
     
     // address of patent approvers.
@@ -34,14 +26,17 @@ contract CityImprovement is Proposal, Ownable {
     // address of improvement voters
     mapping (address => bool) private voters;
     
-    // id of patent application
-    mapping (uint => ProposalDetails) public improvements;
+    // id of improvement application
+    //mapping (uint => ProposalDetails) public improvements;
     
-    // patent counts
-    uint public improvementCounts;
+    // improvement counts
+    //uint public improvementCounts;
 
     // reward amount
-    uint private REWARD_AMOUNT = 200 wei;
+    uint constant private REWARD_AMOUNT = 200 wei;
+
+    // list of proposals
+    Proposal.ProposalDetails[] public improvements;
     
     // Modifiers
     modifier isApprover(address _address) {
@@ -54,20 +49,17 @@ contract CityImprovement is Proposal, Ownable {
         _;
     }
 
-    modifier isApplicant(address _address) {
-        require(applicants[_address] == true, "Only applicant is allowed");
-        _;
-    }
-
     modifier notClosed(uint id) {
         require(improvements[id].status != Proposal.State.Closed, "Only open proposals are allowed");
         _;
     }
     
     constructor() public {
-        improvementCounts = 0;
     }
 
+    /// @dev Reads and returns the proposal by Id.
+    /// @param id Proposal id.
+    /// @return Proposal details public details.
     function readProposal(uint id) 
         public 
         view 
@@ -87,17 +79,20 @@ contract CityImprovement is Proposal, Ownable {
             improvements[id].status);
     }
     
-    /** 
-     * @dev This function creates a new idea to apply for innovation approval.
-     **/
+    /// @dev Start of city improvement application.
+    /// @param title City improvement title.
+    /// @param description City improvement description.
+    /// @param problem City improvement problem it wishes to tackle.
+    /// @param solution Problem's solution.
+    /// @return Application result
     function submit(string memory title, string memory description, string memory problem, string memory solution) public returns(bool) {
         require(applicants[msg.sender] == false);
         require(voters[msg.sender] == false);
         require(approvers[msg.sender] == false);
         require(msg.sender != owner());
         
-        emit LogNewIdea(improvementCounts);
-        improvements[improvementCounts] = Proposal.ProposalDetails({
+        emit LogSubmit(improvements.length, msg.sender);
+        improvements.push(Proposal.ProposalDetails({
             title: title,
             description: description,
             problem: problem,
@@ -108,21 +103,20 @@ contract CityImprovement is Proposal, Ownable {
             approvals: 0,
             proof: 0x0,
             status: Proposal.State.Submitted
-        });
-        
-        // Add `msg.sender` to the applicant list.
+        }));
+
         applicants[msg.sender] = true;
-        improvementCounts = improvementCounts + 1;
+        
         return true;
     }
 
-    /**
-     * @dev This function approves the idea by the randomly selected approver.
-     **/
-     function approve(uint id) public payable isApprover(msg.sender) notClosed(id){
+     /// @dev Approves the City improvement proposal. Application approval sents some reward amount to
+     ///      the applicant which will also vary depending on the number of votes.
+     /// @param id City improvement ID.
+     function approve(uint id) public payable isApprover(msg.sender) notClosed(id) {
          require(improvements[id].votes > 0, "Proposal votes should be present for approval");
          require(improvements[id].approvals <= 2, "Proposal approvals not exceed 2");
-         require(improvements[id].status != Proposal.State.Rejected, "Cannot approve if already rejected");
+         require(improvements[id].status == Proposal.State.Submitted, "Proposal status should still be submitted");
 
          improvements[id].approvals++;
          improvements[id].approver.push(msg.sender);
@@ -140,42 +134,45 @@ contract CityImprovement is Proposal, Ownable {
                                     improvements[id].approvals,
                                     improvements[id].status));
 
-                                            // reward some tokens to applicant.
-            improvements[id].applicant.transfer(REWARD_AMOUNT * improvements[id].votes);
-            emit LogApproveIdea(id);
+            // reward some tokens to applicant.
+            _asyncTransfer(improvements[id].applicant, REWARD_AMOUNT.mul(improvements[id].votes));
+            emit LogApprove(id);
          }
      }
      
-     /**
-      * @dev This function rejects the idea by the approver.
-      * @param id Proposal id.
-      **/
+      /// @dev This function rejects the idea by the approver.
+      /// @param id Proposal id.
       function reject(uint id) public isApprover(msg.sender) notClosed(id) {
-          // the one that approved cannot reject.
-          // no rewards shall be given to the applicant
+          // Checks if an approver already approved the proposal.
+          if(improvements[id].approver.length > 0) {
+            require(msg.sender != improvements[id].approver[0], "First approver cannot reject the application");
+          }
+          require(improvements[id].status == Proposal.State.Submitted, "Proposal status should still be submitted");
           improvements[id].approver.push(msg.sender);
           improvements[id].status = Proposal.State.Rejected;
-          emit LogRejectIdea(id);
+          emit LogReject(id);
       }
-
+        
+       /// @dev This function rejects the idea by the approver.
+       /// @param id Proposal id.
        function vote(uint id) public isVoter(msg.sender) notClosed(id) {
            require(improvements[id].voted[msg.sender] == false, "Voter can only vote once.");
            require(improvements[id].status != Proposal.State.Rejected, "Cannot vote if already rejected");
 
            improvements[id].votes++;
            improvements[id].voted[msg.sender] = true;
+           emit LogVote(id);
        }
 
+       /// @dev Owner only function to close a proposal when it is approved or rejected.
+       /// @param id Proposal id.
        function close(uint id) public onlyOwner notClosed(id) {
            require(improvements[id].status == Proposal.State.Approved || improvements[id].status == Proposal.State.Rejected, "Proposal state should be approved or rejected.");
            improvements[id].status = Proposal.State.Closed;
+           emit LogClose(id);
        }
 
-           
-      /**
-       * @dev This function marks the @msg.sender to be an approver and added to the list of approvers.
-       * Note: Approvers can't can't be voters and can't be applicants.
-       **/
+       /// @dev Marks the caller as the an approver, which will be assigned as among the 2 to approve proposals.
        function applyForApprover() public {
            require(applicants[msg.sender] == false);
            require(voters[msg.sender] == false);
@@ -183,12 +180,10 @@ contract CityImprovement is Proposal, Ownable {
            require(msg.sender != owner());
 
            approvers[msg.sender] = true;
+           emit LogApproverApply(msg.sender);
        }
 
-      /**
-       * @dev This function marks the @msg.sender to be an voter and added to the list of voters.
-       * Note: Voters can't can't be approvers but can be applicants.
-       **/
+       /// @dev Marks the caller as a voter, which can then be vote for proposals.
        function applyForVoter() public {
            require(applicants[msg.sender] == false);
            require(voters[msg.sender] == false);
@@ -196,5 +191,11 @@ contract CityImprovement is Proposal, Ownable {
            require(msg.sender != owner());
 
            voters[msg.sender] = true;
+           emit LogVoterApply(msg.sender);
+       }
+
+       /// @dev Gets the number of proposals.
+       function getNumberOfProposals() public view onlyOwner returns(uint) {
+           return improvements.length;
        }
 }
