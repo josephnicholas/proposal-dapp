@@ -1,0 +1,22 @@
+{
+  "name": "proposal-dapp",
+  "version": "0.0.1",
+  "description": "\"A City Proposal system Dapp\"",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josephnicholas/proposal-dapp.git"
+  },
+  "author": "Joseph Nicholas R. Alcantara",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/josephnicholas/proposal-dapp/issues"
+  },
+  "homepage": "https://github.com/josephnicholas/proposal-dapp#readme"
+}

@@ -1,0 +1,12 @@
+logs
+*.log
+
+# Dependencies
+node_modules/
+
+# IDE
+.idea
+.vscode
+
+# client
+client/src/contracts/*.json
