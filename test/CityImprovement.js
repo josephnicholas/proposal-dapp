@@ -16,18 +16,16 @@ contract("CityImprovement", accounts => {
 
   const REWARD_AMOUNT = 200;
 
-  let improvement
   let cip
 
   beforeEach(async () => {
-    improvement = await CityImprovement.deployed();
     cip = await CityImprovement.new();
   })
 
   describe("Proposal application", async() => {
     it("appliant should be able to submit proposal", async () => {
-      await improvement.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
-      var result = await improvement.readProposal(0); // 1 proposal still in the list
+      await cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
+      var result = await cip.readProposal(0);
       
       assert.equal(result["applicant"], applicant, "Proposal applicant has the same address");
       assert.equal(result["title"], "New MTR Proposal", "Title same as proposed");
@@ -38,35 +36,37 @@ contract("CityImprovement", accounts => {
     });
 
     it("applicant can only submit one proposal", async () => {
-      await catchRevert(improvement.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant}));
+      await cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
+      await catchRevert(cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant}));
     });
 
     it("owner can't do non-admin task", async () => {
-      await catchRevert(improvement.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: owner}));
+      await catchRevert(cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: owner}));
     });
   })
 
   describe("Voting proposal", async() => {
     it("owner cannot apply as voter", async () => {
-      await catchRevert(improvement.applyForVoter({from: owner}));
+      await catchRevert(cip.applyForVoter({from: owner}));
     });
   })
 
   describe("Approving and rejecting proposal", async() => {
     it("owner cannot apply as approver", async () => {
-      await catchRevert(improvement.applyForApprover({from: owner}));
+      await catchRevert(cip.applyForApprover({from: owner}));
     });
 
     it("applicant receives rewards when proposal is approved", async () => {
-      // vote then approve
-      await improvement.applyForVoter({from: voter});
-      await improvement.vote(0, {from: voter});
+      await cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
+
+      await cip.applyForVoter({from: voter});
+      await cip.vote(0, {from: voter});
 
       var prevBalance = await web3.eth.getBalance(applicant);
-      await improvement.applyForApprover({from:approver});
-      await improvement.approve(0, {from: approver, value: REWARD_AMOUNT});
+      await cip.applyForApprover({from:approver});
+      await cip.approve(0, {from: approver, value: REWARD_AMOUNT});
 
-      var result = await improvement.readProposal(0);
+      var result = await cip.readProposal(0);
       
       var balance = await web3.eth.getBalance(applicant);
       assert.equal(result["approver"][0], approver, "Approver assgined.");
@@ -79,7 +79,7 @@ contract("CityImprovement", accounts => {
 
   describe("Full proposal flow", async() => {
     it("proposal application, approval, and closure", async () => {
-      // This will be the 2nd proposal in the improvement list.
+      // This will be the 2nd proposal in the cip list.
       cip.submit("Blockchain voting system", 
         "Ethereum powered blockchain system for private and secured election", 
         "Broken election rules and easy to manipulate", 
@@ -100,7 +100,8 @@ contract("CityImprovement", accounts => {
       await cip.approve(0, {from: presidentApprover, value: REWARD_AMOUNT});
 
       var result = await cip.readProposal(0);
-      
+      await cip.withdrawPaymentsWithGas(citizenApplicant);
+
       var balance = await web3.eth.getBalance(citizenApplicant);
       assert.equal(result["approver"][1], presidentApprover, "Approver assgined.");
       assert.equal(result["status"], 3, "Status should be approved.");
@@ -115,7 +116,7 @@ contract("CityImprovement", accounts => {
     });
 
     it("proposal application, reject, and closure", async () => {
-      // This will be the 2nd proposal in the improvement list.
+      // This will be the 2nd proposal in the cip list.
       cip.submit("Blockchain voting system", 
         "Ethereum powered blockchain system for private and secured election", 
         "Broken election rules and easy to manipulate", 
@@ -148,7 +149,7 @@ contract("CityImprovement", accounts => {
     });
 
     it("2 proposal application, 1 reject, 1 approve and 2 closure", async () => {
-      // This will be the 2nd proposal in the improvement list.
+      // This will be the 2nd proposal in the cip list.
       cip.submit("Blockchain voting system", 
         "Ethereum powered blockchain system for private and secured election", 
         "Broken election rules and easy to manipulate", 

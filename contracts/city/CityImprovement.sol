@@ -26,12 +26,6 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
     // address of improvement voters
     mapping (address => bool) private voters;
     
-    // id of improvement application
-    //mapping (uint => ProposalDetails) public improvements;
-    
-    // improvement counts
-    //uint public improvementCounts;
-
     // reward amount
     uint constant private REWARD_AMOUNT = 200 wei;
 
@@ -106,7 +100,6 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
         }));
 
         applicants[msg.sender] = true;
-        
         return true;
     }
 
