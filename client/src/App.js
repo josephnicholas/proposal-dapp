@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CityImprovementContract from "./contracts/CityImprovement.json";
 import getWeb3 from "./getWeb3";
+import { Button } from 'rimble-ui';
 
 import "./App.css";
 
@@ -70,6 +71,7 @@ class App extends Component {
           Try changing the value stored on <strong>line 40</strong> of App.js.
         </p>
         <div>The stored value is: {this.state.proposalCount}</div>
+        <Button size={'small'} color={'blue'}>Click me!</Button>
       </div>
     );
   }

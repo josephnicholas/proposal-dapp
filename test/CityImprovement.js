@@ -22,7 +22,7 @@ contract("CityImprovement", accounts => {
     cip = await CityImprovement.new();
   })
 
-  describe("Proposal application", async() => {
+  contract("Proposal application", async() => {
     it("appliant should be able to submit proposal", async () => {
       await cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
       var result = await cip.readProposal(0);
@@ -45,7 +45,7 @@ contract("CityImprovement", accounts => {
     });
   })
 
-  describe("Voting proposal", async() => {
+  contract("Voting proposal", async() => {
     it("owner cannot apply as voter", async () => {
       await catchRevert(cip.applyForVoter({from: owner}));
     });
@@ -66,7 +66,7 @@ contract("CityImprovement", accounts => {
     });
   })
 
-  describe("Approving and rejecting proposal", async() => {
+  contract("Approving and rejecting proposal", async() => {
     it("owner cannot apply as approver", async () => {
       await catchRevert(cip.applyForApprover({from: owner}));
     });
@@ -97,7 +97,7 @@ contract("CityImprovement", accounts => {
     });
   })
 
-  describe("Full proposal flow", async() => {
+  contract("Full proposal flow", async() => {
     it("proposal application, approval, and closure", async () => {
       // This will be the 2nd proposal in the cip list.
       cip.submit("Blockchain voting system", 
