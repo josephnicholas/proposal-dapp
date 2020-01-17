@@ -100,7 +100,7 @@ contract("CityImprovement", accounts => {
       await cip.approve(0, {from: presidentApprover, value: REWARD_AMOUNT});
 
       var result = await cip.readProposal(0);
-      await cip.withdrawPaymentsWithGas(citizenApplicant);
+      await cip.withdrawPayments(citizenApplicant);
 
       var balance = await web3.eth.getBalance(citizenApplicant);
       assert.equal(result["approver"][1], presidentApprover, "Approver assgined.");
