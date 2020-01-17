@@ -49,11 +49,31 @@ contract("CityImprovement", accounts => {
     it("owner cannot apply as voter", async () => {
       await catchRevert(cip.applyForVoter({from: owner}));
     });
+
+    it("same voter cannot apply twice", async () => {
+      cip.applyForVoter({from: voter})
+      await catchRevert(cip.applyForVoter({from: voter}));
+    });
+
+    it("approver cannot apply as voter", async () => {
+      cip.applyForApprover({from: approver})
+      await catchRevert(cip.applyForVoter({from: approver}));
+    });
+
+    it("applicant cannot apply as voter", async () => {
+      await cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
+      await catchRevert(cip.applyForVoter({from: applicant}));
+    });
   })
 
   describe("Approving and rejecting proposal", async() => {
     it("owner cannot apply as approver", async () => {
       await catchRevert(cip.applyForApprover({from: owner}));
+    });
+
+    it("same approver cannot apply twice", async () => {
+      cip.applyForApprover({from: approver})
+      await catchRevert(cip.applyForApprover({from: approver}));
     });
 
     it("applicant receives rewards when proposal is approved", async () => {
@@ -149,7 +169,6 @@ contract("CityImprovement", accounts => {
     });
 
     it("2 proposal application, 1 reject, 1 approve and 2 closure", async () => {
-      // This will be the 2nd proposal in the cip list.
       cip.submit("Blockchain voting system", 
         "Ethereum powered blockchain system for private and secured election", 
         "Broken election rules and easy to manipulate", 

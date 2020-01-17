@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import CityImprovementContract from "./contracts/CityImprovement.json";
 import getWeb3 from "./getWeb3";
 
 import "./App.css";
 
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null };
+  state = { proposalCount: 0, web3: null, accounts: null, contract: null };
 
   componentDidMount = async () => {
     try {
@@ -17,9 +17,9 @@ class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = SimpleStorageContract.networks[networkId];
+      const deployedNetwork = CityImprovementContract.networks[networkId];
       const instance = new web3.eth.Contract(
-        SimpleStorageContract.abi,
+        CityImprovementContract.abi,
         deployedNetwork && deployedNetwork.address,
       );
 
@@ -38,14 +38,19 @@ class App extends Component {
   runExample = async () => {
     const { accounts, contract } = this.state;
 
+    await contract.methods.submit("P2P voting system", 
+    "Corda powered blockchain system for private and secured election", 
+    "Broken election rules and easy to manipulate", 
+    "Fair election")
+
     // Stores a given value, 5 by default.
-    await contract.methods.set(5).send({ from: accounts[0] });
+    const response = await contract.methods.getNumberOfProposals().call();
 
     // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
+    //const response = await contract.methods.get().call();
 
     // Update state with the result.
-    this.setState({ storageValue: response });
+    this.setState({ proposalCount: response });
   };
 
   render() {
@@ -54,7 +59,7 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <h1>Good to Go!</h1>
+        <h1>Proposal System</h1>
         <p>Your Truffle Box is installed and ready.</p>
         <h2>Smart Contract Example</h2>
         <p>
@@ -64,7 +69,7 @@ class App extends Component {
         <p>
           Try changing the value stored on <strong>line 40</strong> of App.js.
         </p>
-        <div>The stored value is: {this.state.storageValue}</div>
+        <div>The stored value is: {this.state.proposalCount}</div>
       </div>
     );
   }
