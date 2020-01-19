@@ -54,17 +54,16 @@ class App extends Component {
 
     const response = await contract.methods.getNumberOfProposals().call();
 
-    this.setState({ proposalCount: response });
-    
-    for (let i = 0; i < this.state.proposalCount; i++) { 
-        contract.methods.readProposal(i).call().then( (proposalResponse) => {
-        console.log(proposalResponse["title"]);
-        this.state.titles.push(proposalResponse["title"]);
-        this.state.descriptions.push(proposalResponse["description"]);
-        this.state.problems.push(proposalResponse["problem"]);
-        this.state.solutions.push(proposalResponse["solution"]);
-      });
+    for (let i = 0; i < response; i++) { 
+      const proposalResponse = await contract.methods.readProposal(i).call()
+      console.log(proposalResponse["title"]);
+      this.state.titles.push(proposalResponse["title"]);
+      this.state.descriptions.push(proposalResponse["description"]);
+      this.state.problems.push(proposalResponse["problem"]);
+      this.state.solutions.push(proposalResponse["solution"]);
     }
+
+   this.setState({ proposalCount: response });
   };
 
   applyForApprover = async () => {
@@ -83,7 +82,7 @@ class App extends Component {
     console.log("Status " +proposalResponse["status"]);
   };
 
-  applyForVoter = async (id) => {
+  applyForVoter = async () => {
     const { accounts, contract } = this.state;
     await contract.methods.applyForVoter().send({ from: accounts[0] });
     console.log("Added voter " + accounts[0]);
@@ -93,9 +92,11 @@ class App extends Component {
     const { accounts, contract } = this.state;
     await contract.methods.vote(id).send({ from: accounts[0] });
 
+    console.log("Voted " + id);
+
     const proposalResponse = await contract.methods.readProposal(id).call();
 
-    console.log("Voted " +proposalResponse["title"]);
+    console.log("Voted " + proposalResponse["title"]);
   };
 
   close = async (id) => {
@@ -161,15 +162,15 @@ class App extends Component {
             </Text>
           </Box>
     
-          <Button className="vote" onClick={() => this.vote(0)} width={[1, "auto", 1]} mb={1}>
+          <Button className="vote" onClick={() => this.vote(i)} width={[1, "auto", 1]} mb={1}>
             Vote
           </Button>
         
-          <Button className="approve" onClick={() => this.approve(0)} width={[1, "auto", 1]} mb={1}>
+          <Button className="approve" onClick={() => this.approve(i)} width={[1, "auto", 1]} mb={1}>
             Approve
           </Button>
     
-          <Button.Outline className="close" onClick={() => this.close(0)} width={[1, "auto", 1]} mt={[2, 0, 0]}>
+          <Button.Outline className="close" onClick={() => this.close(i)} width={[1, "auto", 1]} mt={[2, 0, 0]}>
             Close
           </Button.Outline>
         </Card>);
