@@ -112,6 +112,9 @@ contract("CityImprovement", accounts => {
       await cip.vote(0, {from: citizenVoter});
       await cip.vote(0, {from: voter});
 
+      var isVoter = await cip.voters(voter)
+      assert.equal(true, isVoter, "This is a voter");
+
       var prevBalance = await web3.eth.getBalance(citizenApplicant);
       await cip.applyForApprover({from: congressmanApprover});
       await cip.approve(0, {from: congressmanApprover, value: REWARD_AMOUNT});

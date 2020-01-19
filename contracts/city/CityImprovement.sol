@@ -21,10 +21,10 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
     mapping (address => bool) public applicants;
     
     // address of patent approvers.
-    mapping (address => bool) private approvers; // Mayor and Governor
+    mapping (address => bool) public approvers;
 
     // address of improvement voters
-    mapping (address => bool) private voters;
+    mapping (address => bool) public voters;
     
     // reward amount
     uint constant private REWARD_AMOUNT = 200 wei;
@@ -47,9 +47,6 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
         require(improvements[id].status != Proposal.State.Closed, "Only open proposals are allowed");
         _;
     }
-    
-    constructor() public {
-    }
 
     /// @dev Reads and returns the proposal by Id.
     /// @param id Proposal id.
@@ -57,6 +54,7 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
     function readProposal(uint id) 
         public 
         view 
+        whenNotPaused
         returns(string memory title, 
             string memory description, 
             address applicant, 
@@ -79,7 +77,7 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
     /// @param problem City improvement problem it wishes to tackle.
     /// @param solution Problem's solution.
     /// @return Application result
-    function submit(string memory title, string memory description, string memory problem, string memory solution) public returns(bool) {
+    function submit(string memory title, string memory description, string memory problem, string memory solution) public whenNotPaused returns(bool) {
         require(applicants[msg.sender] == false);
         require(voters[msg.sender] == false);
         require(approvers[msg.sender] == false);
@@ -106,7 +104,7 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
      /// @dev Approves the City improvement proposal. Application approval sents some reward amount to
      ///      the applicant which will also vary depending on the number of votes.
      /// @param id City improvement ID.
-     function approve(uint id) public payable isApprover(msg.sender) notClosed(id) {
+     function approve(uint id) public payable isApprover(msg.sender) notClosed(id) whenNotPaused {
          require(improvements[id].votes > 0, "Proposal votes should be present for approval");
          require(improvements[id].approvals <= 2, "Proposal approvals not exceed 2");
          require(improvements[id].status == Proposal.State.Submitted, "Proposal status should still be submitted");
@@ -129,13 +127,17 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
 
             // reward some tokens to applicant.
             _asyncTransfer(improvements[id].applicant, REWARD_AMOUNT.mul(improvements[id].votes));
+
+            // once approved applicant can submit, be a voter, or approver.
+            applicants[improvements[id].applicant] = false;
+
             emit LogApprove(id);
          }
      }
      
       /// @dev This function rejects the idea by the approver.
       /// @param id Proposal id.
-      function reject(uint id) public isApprover(msg.sender) notClosed(id) {
+      function reject(uint id) public isApprover(msg.sender) notClosed(id) whenNotPaused {
           // Checks if an approver already approved the proposal.
           if(improvements[id].approver.length > 0) {
             require(msg.sender != improvements[id].approver[0], "First approver cannot reject the application");
@@ -148,7 +150,7 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
         
        /// @dev This function rejects the idea by the approver.
        /// @param id Proposal id.
-       function vote(uint id) public isVoter(msg.sender) notClosed(id) {
+       function vote(uint id) public isVoter(msg.sender) notClosed(id) whenNotPaused {
            require(improvements[id].voted[msg.sender] == false, "Voter can only vote once.");
            require(improvements[id].status != Proposal.State.Rejected, "Cannot vote if already rejected");
 
@@ -159,14 +161,14 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
 
        /// @dev Owner only function to close a proposal when it is approved or rejected.
        /// @param id Proposal id.
-       function close(uint id) public onlyOwner notClosed(id) {
+       function close(uint id) public onlyOwner notClosed(id) whenNotPaused {
            require(improvements[id].status == Proposal.State.Approved || improvements[id].status == Proposal.State.Rejected, "Proposal state should be approved or rejected.");
            improvements[id].status = Proposal.State.Closed;
            emit LogClose(id);
        }
 
        /// @dev Marks the caller as the an approver, which will be assigned as among the 2 to approve proposals.
-       function applyForApprover() public {
+       function applyForApprover() public whenNotPaused {
            require(applicants[msg.sender] == false);
            require(voters[msg.sender] == false);
            require(approvers[msg.sender] == false);
@@ -177,7 +179,7 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
        }
 
        /// @dev Marks the caller as a voter, which can then be vote for proposals.
-       function applyForVoter() public {
+       function applyForVoter() public whenNotPaused {
            require(applicants[msg.sender] == false);
            require(voters[msg.sender] == false);
            require(approvers[msg.sender] == false);
@@ -188,7 +190,7 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
        }
 
        /// @dev Gets the number of proposals.
-       function getNumberOfProposals() public view onlyOwner returns(uint) {
+       function getNumberOfProposals() public view whenNotPaused returns(uint)  {
            return improvements.length;
        }
 }
