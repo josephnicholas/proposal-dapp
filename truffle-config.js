@@ -1,9 +1,10 @@
 const path = require("path");
 
-const HDWallet = require('truffle-hdwallet-provider');
+const HDWalletProvider = require('truffle-hdwallet-provider');
 const infuraKey = '0f4d7a2c72e142059cbf95d74a41f94f';
 const infuraURL = 'https://rinkeby.infura.io/v3/0f4d7a2c72e142059cbf95d74a41f94f'
 
+const fs = require('fs');
 const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 module.exports = {

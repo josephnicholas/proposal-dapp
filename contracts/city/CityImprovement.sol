@@ -27,7 +27,7 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
     mapping (address => bool) public voters;
     
     // reward amount
-    uint constant private REWARD_AMOUNT = 200 wei;
+    uint constant private REWARD_AMOUNT = 1 ether;
 
     // list of proposals
     Proposal.ProposalDetails[] public improvements;
@@ -62,6 +62,7 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
             uint votes,
             bytes32 proof,
             Proposal.State status) {
+        require(improvements.length > 0, "There should be a proposal to read on");
         return (improvements[id].title, 
             improvements[id].description, 
             improvements[id].applicant, 
@@ -151,6 +152,7 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
        /// @dev This function rejects the idea by the approver.
        /// @param id Proposal id.
        function vote(uint id) public isVoter(msg.sender) notClosed(id) whenNotPaused {
+           require(improvements[id].status == Proposal.State.Submitted, "Proposal status should still be submitted");
            require(improvements[id].voted[msg.sender] == false, "Voter can only vote once.");
            require(improvements[id].status != Proposal.State.Rejected, "Cannot vote if already rejected");
 

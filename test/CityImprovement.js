@@ -107,7 +107,14 @@ contract("CityImprovement", accounts => {
         "Fair election", 
         {from: citizenApplicant});
 
-      await cip.applyForVoter({from: citizenVoter});
+      const tx = await cip.applyForVoter({from: citizenVoter});
+      let eventEmitted = false;
+      if (tx.logs[0].event == "LogVoterApply") {
+        eventEmitted = true;
+      }
+
+      assert.equal(eventEmitted, true, 'applying for approver should emit a approver apply event')
+
       await cip.applyForVoter({from: voter});
 
       await cip.vote(0, {from: citizenVoter});

@@ -54,6 +54,8 @@ class App extends Component {
 
     const response = await contract.methods.getNumberOfProposals().call();
 
+    console.log("Proposal Count: " + response);
+    
     for (let i = 0; i < response; i++) { 
       const proposalResponse = await contract.methods.readProposal(i).call()
       console.log(proposalResponse["title"]);
