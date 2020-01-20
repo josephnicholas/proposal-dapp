@@ -55,7 +55,7 @@ class App extends Component {
     const response = await contract.methods.getNumberOfProposals().call();
 
     console.log("Proposal Count: " + response);
-    
+
     for (let i = 0; i < response; i++) { 
       const proposalResponse = await contract.methods.readProposal(i).call()
       console.log(proposalResponse["title"]);
@@ -75,12 +75,24 @@ class App extends Component {
   };
 
   approve = async (id) => {
-    const { accounts, contract } = this.state;
+    const { accounts, contract, web3 } = this.state;
 
-    await contract.methods.approve(id).send({ from: accounts[0], value: 200 });
+    const REWARD_AMOUNT = web3.utils.toWei('1', 'ether')
+
+    await contract.methods.approve(id).send({ from: accounts[0], value: REWARD_AMOUNT });
     const proposalResponse = await contract.methods.readProposal(id).call();
     
     console.log("Approved " +proposalResponse["title"]);
+    console.log("Status " +proposalResponse["status"]);
+  };
+  
+  reject = async (id) => {
+    const { accounts, contract } = this.state;
+
+    await contract.methods.reject(id).send({ from: accounts[0] });
+    const proposalResponse = await contract.methods.readProposal(id).call();
+    
+    console.log("Rejected " +proposalResponse["title"]);
     console.log("Status " +proposalResponse["status"]);
   };
 
@@ -170,6 +182,10 @@ class App extends Component {
         
           <Button className="approve" onClick={() => this.approve(i)} width={[1, "auto", 1]} mb={1}>
             Approve
+          </Button>
+
+          <Button className="approve" onClick={() => this.reject(i)} width={[1, "auto", 1]} mb={1}>
+            Reject
           </Button>
     
           <Button.Outline className="close" onClick={() => this.close(i)} width={[1, "auto", 1]} mt={[2, 0, 0]}>
