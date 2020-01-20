@@ -12,7 +12,8 @@ interface Proposal {
         Review,
         Rejected,
         Approved,
-        Closed
+        Closed,
+        Approval
     }
 
     /// @dev Data structure for Proposal details.
