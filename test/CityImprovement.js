@@ -1,6 +1,7 @@
 const CityImprovement = artifacts.require("./city/CityImprovement.sol");
 let catchRevert = require("./exceptionsHelpers.js").catchRevert
 const BN = web3.utils.BN
+const toWei = web3.utils.toWei;
 
 contract("CityImprovement", accounts => {
   const owner = accounts[0];
@@ -14,7 +15,7 @@ contract("CityImprovement", accounts => {
 
   const citizenVoter = accounts[7];
 
-  const REWARD_AMOUNT = 200;
+  const REWARD_AMOUNT = toWei('1', 'ether');
 
   let cip
 
@@ -117,10 +118,10 @@ contract("CityImprovement", accounts => {
 
       var prevBalance = await web3.eth.getBalance(citizenApplicant);
       await cip.applyForApprover({from: congressmanApprover});
-      await cip.approve(0, {from: congressmanApprover, value: REWARD_AMOUNT});
-
       await cip.applyForApprover({from: presidentApprover});
-      await cip.approve(0, {from: presidentApprover, value: REWARD_AMOUNT});
+
+      await cip.approve(0, {from: congressmanApprover, value: REWARD_AMOUNT});
+      await cip.approve(0, {from: presidentApprover, value:   REWARD_AMOUNT});
 
       var result = await cip.readProposal(0);
       await cip.withdrawPayments(citizenApplicant);
