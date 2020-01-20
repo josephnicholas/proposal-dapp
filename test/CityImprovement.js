@@ -27,6 +27,9 @@ contract("CityImprovement", accounts => {
     it("appliant should be able to submit proposal", async () => {
       await cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
       var result = await cip.readProposal(0);
+      var proposal = await cip.improvements(0);
+
+      assert.equal(proposal["title"], "New MTR Proposal", "Proposal applicant has the same address");
       
       assert.equal(result["applicant"], applicant, "Proposal applicant has the same address");
       assert.equal(result["title"], "New MTR Proposal", "Title same as proposed");
