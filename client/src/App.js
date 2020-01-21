@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CityImprovementContract from "./contracts/CityImprovement.json";
 import getWeb3 from "./getWeb3";
-import { BaseStyles, Flex, Box, Form, Input, Field, Button, Heading, Textarea, Text, Card } from 'rimble-ui';
+import { BaseStyles, Flex, Box, Form, Input, Field, Button, Heading, Textarea, Text, Card, colorStyle } from 'rimble-ui';
 
 import "./App.css";
 
@@ -22,7 +22,10 @@ class App extends Component {
     solutions: [],
     applyVoterBtn: false,
     applyApproverBtn: false,
-    applicantState: false
+    applicantState: false,
+    approverDone: false,
+    pendingPayments: 0,
+    cardProposals: null
   };
 
   componentDidMount = async () => {
@@ -60,8 +63,7 @@ class App extends Component {
     const aVoterState = await contract.methods.voters(accounts[0]).call();
     const aApproverState = await contract.methods.approvers(accounts[0]).call();
     const applicantState = await contract.methods.applicants(accounts[0]).call();
-
-    console.log("Proposal Count: " + response);
+    const pending = await contract.methods.payments(accounts[0]).call({ from: accounts[0] });
 
     for (let i = 0; i < response; i++) { 
       const proposalResponse = await contract.methods.readProposal(i).call()
@@ -73,6 +75,9 @@ class App extends Component {
    this.setState({ applyVoterBtn: aVoterState });
    this.setState({ applyApproverBtn: aApproverState });
    this.setState({ applicantState: applicantState });
+   this.setState({pendingPayments: pending});
+
+   await this.handleCardRender(this.state.proposalCount);
   };
 
   applyForApprover = async () => {
@@ -84,13 +89,20 @@ class App extends Component {
   approve = async (id) => {
     const { accounts, contract, web3 } = this.state;
 
-    const REWARD_AMOUNT = web3.utils.toWei('1', 'ether')
+    const REWARD_AMOUNT = web3.utils.toWei('1', 'ether');
+    const responseApprovals = await contract.methods.improvements(id).call();
+    const votes = responseApprovals["votes"];
+    const approvals = responseApprovals["approvals"];
+    console.log("Votes: " + votes);
+    console.log("Approvals: " + approvals);
+    console.log("Status " + responseApprovals["approvals"]);
+    console.log("Id " + id);
 
-    await contract.methods.approve(id).send({ from: accounts[0], value: REWARD_AMOUNT });
-    const proposalResponse = await contract.methods.readProposal(id).call();
-    
-    console.log("Approved " +proposalResponse["title"]);
-    console.log("Status " +proposalResponse["status"]);
+    if (responseApprovals["approvals"] > 0) {
+      await contract.methods.approve(id).send({ from: accounts[0], value: new web3.utils.BN(REWARD_AMOUNT).mul(new web3.utils.BN(votes)) });
+    } else {
+      await contract.methods.approve(id).send({ from: accounts[0] });
+    }
   };
   
   reject = async (id) => {
@@ -112,12 +124,8 @@ class App extends Component {
   vote = async (id) => {
     const { accounts, contract } = this.state;
     await contract.methods.vote(id).send({ from: accounts[0] });
-
-    console.log("Voted " + id);
-
     const proposalResponse = await contract.methods.readProposal(id).call();
-
-    console.log("Voted " + proposalResponse["title"]);
+    await this.handleVoteButton(id);
   };
 
   close = async (id) => {
@@ -159,13 +167,33 @@ class App extends Component {
     this.setState({proposalDescription: ""});
     this.setState({proposalProb: ""});
     this.setState({proposalSol: ""});
+  };
+
+  handleVoteButton = async(id) => {
+    const { accounts, contract } = this.state;
+    const response = await contract.methods.doneVoting(id, accounts[0]).call();
+    return response;
   }
 
-  handleCardRender = (count) => {
+  handleApproveButton = async(id) => {
+    const { accounts, contract } = this.state;
+    const response = await contract.methods.doneApproving(id, accounts[0]).call();
+    return response;
+  }
+
+  handleClosed = async(id) => {
+    const { contract } = this.state;
+    const response = await contract.methods.improvements(id).call();
+    const closed = (response["status"] == 4)
+
+    return closed;
+  }
+
+  handleCardRender = async (count) => {
     const array = [];
 
     for (let i = 0; i < count; i++) {
-        array.push(<Card width={"auto"} maxWidth={"534px"} px={[3, 3, 4]}>
+        array.push(<Card width={"auto"} maxWidth={"540px"} px={[3, 3, 4]}>
         <Heading>{this.state.titles[i]}</Heading>
           <Box>
             <Text mb={4}>
@@ -185,25 +213,31 @@ class App extends Component {
             </Text>
           </Box>
     
-          <Button disabled={this.state.applicantState} className="vote" onClick={() => this.vote(i)} width={[1, "auto", 1]} mb={1}>
+          <Button disabled={ this.state.applicantState || await this.handleVoteButton(i) || await this.handleClosed(i)} onClick={() => this.vote(i)} width={[1, "auto", 1]} mb={1}>
             Vote
           </Button>
         
-          <Button disabled={this.state.applicantState} className="approve" onClick={() => this.approve(i)} width={[1, "auto", 1]} mb={1}>
+          <Button disabled={ this.state.applicantState || await this.handleApproveButton(i) || await this.handleClosed(i) } className="approve" onClick={() => this.approve(i)} width={[1, "auto", 1]} mb={1}>
             Approve
           </Button>
 
-          <Button className="approve" onClick={() => this.reject(i)} width={[1, "auto", 1]} mb={1}>
+          <Button disabled={ this.state.applicantState || await this.handleApproveButton(i) || await this.handleClosed(i) } onClick={() => this.reject(i)} width={[1, "auto", 1]} mb={1}>
             Reject
           </Button>
     
-          <Button.Outline  disabled={this.state.applicantState} className="close" onClick={() => this.close(i)} width={[1, "auto", 1]} mt={[2, 0, 0]}>
+          <Button.Outline  disabled={ this.state.applicantState || await this.handleClosed(i) } className="close" onClick={() => this.close(i)} width={[1, "auto", 1]} mt={[2, 0, 0]}>
             Close
           </Button.Outline>
         </Card>);
     }
-    
-    return array;
+    this.setState({cardProposals: array});
+  };
+
+  handleWithdraw = async() => {
+    const { accounts, contract } = this.state;
+    if (this.state.pendingPayments > 0) {
+      await contract.methods.withdrawPayments(accounts[0]).send({from: accounts[0]});
+    }
   }
 
    render() {
@@ -272,7 +306,12 @@ class App extends Component {
               </Box>
             </Form>
             <Flex>
-                {this.handleCardRender(this.state.proposalCount)}
+              <Box width={[1, 1, 1]} px={3}>
+                <Button disabled={this.state.pendingPayments == 0} size={'large'} onClick={ () => this.handleWithdraw() } mb={2} mt={2}>Withdraw</Button>
+              </Box>
+            </Flex>
+            <Flex>
+                {this.state.cardProposals}
             </Flex>
             <Box>
               <Button disabled={this.state.applyApproverBtn || this.state.applyVoterBtn || this.state.applicantState} className="applyApprover" onClick={() => this.applyForApprover()} width={[1, "auto", "auto"] }mt={2} mr={2}>

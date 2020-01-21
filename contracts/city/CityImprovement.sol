@@ -109,6 +109,9 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
          require(improvements[id].votes > 0, "Proposal votes should be present for approval");
          require(improvements[id].approvals <= 2, "Proposal approvals not exceed 2");
          require(improvements[id].status == Proposal.State.Submitted, "Proposal status should still be submitted");
+         if(improvements[id].approver.length > 0) {
+            require(msg.sender != improvements[id].approver[0], "Approver can only approve once");
+         }
 
          improvements[id].approvals++;
          improvements[id].approver.push(msg.sender);
@@ -192,7 +195,25 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
        }
 
        /// @dev Gets the number of proposals.
+       /// @return number of proposals
        function getNumberOfProposals() public view whenNotPaused returns(uint)  {
            return improvements.length;
+       }
+
+       /// @dev Helper function to know if approver already is done.
+       /// @return true/false if approver is found in proposal
+       function doneApproving(uint id, address approver) public view returns(bool) {
+           for (uint8 idx = 0; idx < improvements[id].approver.length; idx++) {
+               if (improvements[id].approver[idx] == approver ) {
+                 return true;  
+               } 
+           }
+           return false;
+       }
+
+       /// @dev Helper function to know if voter already is done.
+       /// @return true/false if voter is found in proposal
+       function doneVoting(uint id, address voter) public view returns(bool) {
+           return improvements[id].voted[voter];
        }
 }

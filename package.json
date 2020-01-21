@@ -22,7 +22,5 @@
   "devDependencies": {
     "@openzeppelin/contracts": "^2.4.0"
   },
-  "dependencies": {
-    "truffle-security": "^1.6.2"
-  }
+  "dependencies": {}
 }
