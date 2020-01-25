@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CityImprovementContract from "./contracts/CityImprovement.json";
 import getWeb3 from "./getWeb3";
-import { BaseStyles, Flex, Box, Form, Input, Field, Button, Heading, Textarea, Text, Card, colorStyle } from 'rimble-ui';
+import { BaseStyles, Flex, Box, Form, Input, Field, Button, Heading, Textarea, Text, Card } from 'rimble-ui';
 
 import "./App.css";
 
@@ -79,6 +79,17 @@ class App extends Component {
 
    await this.handleCardRender(this.state.proposalCount);
   };
+
+  getProposalStats = async (id) => {
+    const { contract } = this.state;
+    const proposal = await contract.methods.improvements(id).call();
+    
+    const votes = proposal["votes"];
+    const approvals = proposal["approvals"];
+    const closed = proposal["status"] == 4;
+
+    return [votes, approvals, closed];
+  }
 
   applyForApprover = async () => {
     const { accounts, contract } = this.state;
@@ -191,8 +202,9 @@ class App extends Component {
 
   handleCardRender = async (count) => {
     const array = [];
-
+    
     for (let i = 0; i < count; i++) {
+      const [votes, approvals, closed] = await this.getProposalStats(i);
         array.push(<Card width={"auto"} maxWidth={"540px"} px={[3, 3, 4]}>
         <Heading>{this.state.titles[i]}</Heading>
           <Box>
@@ -200,16 +212,22 @@ class App extends Component {
             {this.state.descriptions[i]}
             </Text>
           </Box>
-    
+
           <Box>
-            <Text mb={4}>
-            {this.state.problems[i]}
+            <Text mb={1}>
+              <strong>Votes:</strong> { votes }
             </Text>
           </Box>
-    
+
           <Box>
-            <Text mb={4}>
-            {this.state.solutions[i]}
+            <Text mb={1}>
+              <strong>Approvals:</strong> { approvals }
+            </Text>
+          </Box>
+
+          <Box>
+            <Text mb={1}>
+              <strong>Closed:</strong> { closed.toString() }
             </Text>
           </Box>
     

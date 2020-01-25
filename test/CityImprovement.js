@@ -29,7 +29,8 @@ contract("CityImprovement", accounts => {
       var result = await cip.readProposal(0);
       var proposal = await cip.improvements(0);
 
-      assert.equal(proposal["title"], "New MTR Proposal", "Proposal applicant has the same address");
+      // test get using direct array.
+      assert.equal(proposal["title"], "New MTR Proposal", "Title same as proposed");
       
       assert.equal(result["applicant"], applicant, "Proposal applicant has the same address");
       assert.equal(result["title"], "New MTR Proposal", "Title same as proposed");
@@ -131,7 +132,7 @@ contract("CityImprovement", accounts => {
       await cip.applyForApprover({from: presidentApprover});
 
       await cip.approve(0, {from: congressmanApprover, value: REWARD_AMOUNT});
-      await cip.approve(0, {from: presidentApprover, value:   REWARD_AMOUNT});
+      await cip.approve(0, {from: presidentApprover, value: REWARD_AMOUNT});
 
       var result = await cip.readProposal(0);
       await cip.withdrawPayments(citizenApplicant);
@@ -214,12 +215,30 @@ contract("CityImprovement", accounts => {
       assert.equal(result["status"], 2, "Status should be rejected.");
       assert.equal(result["votes"], 2, "There should be 2 vote.");
       assert.equal(result["proof"], 0x0, "Proposal should have no proof of approval.");
-      assert.equal(balance, new BN(prevBalance), "Applicant balance greater than the previous.");
+      assert.equal(balance, new BN(prevBalance), "No reward given to applicant.");
 
       await cip.close(0, {from: owner});
 
       result = await cip.readProposal(0);
       assert.equal(result["status"], 4, "Owner already closed");
+
+      await cip.vote(1, {from: citizenVoter});
+      await cip.vote(1, {from: voter});
+
+      prevBalance = await web3.eth.getBalance(applicant);
+      await cip.applyForApprover({from: presidentApprover});
+      await cip.approve(1, {from: congressmanApprover, value: REWARD_AMOUNT});
+      await cip.approve(1, {from: presidentApprover, value: REWARD_AMOUNT});
+
+      result = await cip.readProposal(1);
+      await cip.withdrawPayments(applicant);
+      balance = await web3.eth.getBalance(applicant);
+
+      assert.equal(result["approver"][0], congressmanApprover, "First approver");
+      assert.equal(result["status"], 3, "Status should be approved.");
+      assert.equal(result["votes"], 2, "There should be 2 vote.");
+      assert.notEqual(result["proof"], 0x0, "Proposal should have no proof of approval.");
+      assert.equal(balance, new BN(prevBalance).add(new BN(REWARD_AMOUNT).mul(new BN(result["votes"]))).toString(), "Applicant balance greater than the previous.");
     });
   })
 });
