@@ -44,8 +44,7 @@ interface Proposal {
     /// @param description Description or overview of the proposal.
     /// @param problem Problem it seeks to address.
     /// @param solution Proposed solution.
-    /// @return Application result.
-    function submit(string calldata title, string calldata description, string calldata problem, string calldata solution) external returns(bool);
+    function submit(string calldata title, string calldata description, string calldata problem, string calldata solution) external ;
 
     /// @dev This function approves the idea by the randomly selected approver.
     /// @param id Id of the proposal to approve.

@@ -78,13 +78,12 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
     /// @param problem City improvement problem it wishes to tackle.
     /// @param solution Problem's solution.
     /// @return Application result
-    function submit(string memory title, string memory description, string memory problem, string memory solution) public whenNotPaused returns(bool) {
+    function submit(string memory title, string memory description, string memory problem, string memory solution) public whenNotPaused {
         require(applicants[msg.sender] == false);
         require(voters[msg.sender] == false);
         require(approvers[msg.sender] == false);
         require(msg.sender != owner());
         
-        emit LogSubmit(improvements.length, msg.sender);
         improvements.push(Proposal.ProposalDetails({
             title: title,
             description: description,
@@ -99,7 +98,7 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
         }));
 
         applicants[msg.sender] = true;
-        return true;
+        emit LogSubmit(improvements.length, msg.sender);
     }
 
      /// @dev Approves the City improvement proposal. Application approval sents some reward amount to

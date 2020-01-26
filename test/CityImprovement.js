@@ -24,14 +24,19 @@ contract("CityImprovement", accounts => {
   })
 
   contract("Proposal application", async() => {
-    it("appliant should be able to submit proposal", async () => {
-      await cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
-      var result = await cip.readProposal(0);
-      var proposal = await cip.improvements(0);
-
-      // test get using direct array.
-      assert.equal(proposal["title"], "New MTR Proposal", "Title same as proposed");
+    it("applicant should be able to submit proposal", async () => {
+      const tx = await cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
       
+      let eventEmitted = false;
+      if (tx.logs[0].event == "LogSubmit") {
+        eventEmitted = true;
+      }
+
+      const result = await cip.readProposal(0);
+      const proposal = await cip.improvements(0);
+
+      assert.equal(eventEmitted, true, "Submit log")
+      assert.equal(proposal["title"], "New MTR Proposal", "Title same as proposed");      
       assert.equal(result["applicant"], applicant, "Proposal applicant has the same address");
       assert.equal(result["title"], "New MTR Proposal", "Title same as proposed");
       assert.equal(result["approver"], 0, "No approver yet");
@@ -47,6 +52,114 @@ contract("CityImprovement", accounts => {
 
     it("owner can't do non-admin task", async () => {
       await catchRevert(cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: owner}));
+    });
+
+    it("applicant can submit again after proposal is closed", async () => {
+      let tx = await cip.submit("Blockchain voting system", 
+        "Ethereum powered blockchain system for private and secured election", 
+        "Broken election rules and easy to manipulate", 
+        "Fair election", 
+        {from: citizenApplicant});
+
+      let eventEmitted = false;
+      if (tx.logs[0].event == "LogSubmit") {
+        eventEmitted = true;
+      }
+
+      assert.equal(eventEmitted, true, 'applicant submit proposal log')
+
+      tx = await cip.applyForVoter({from: citizenVoter});
+      eventEmitted = false;
+      if (tx.logs[0].event == "LogVoterApply") {
+        eventEmitted = true;
+      }
+
+      assert.equal(eventEmitted, true, 'applying for approver should emit a approver apply event')
+
+      tx = await cip.applyForVoter({from: voter});
+      eventEmitted = false;
+      if (tx.logs[0].event == "LogVoterApply") {
+        eventEmitted = true;
+      }
+      assert.equal(eventEmitted, true, 'applying for approver should emit a approver apply event')
+
+      tx = await cip.vote(0, {from: citizenVoter});
+      eventEmitted = false;
+      if (tx.logs[0].event == "LogVote") {
+        eventEmitted = true;
+      }
+      assert.equal(eventEmitted, true, 'voter vote to proposal')
+
+      tx = await cip.vote(0, {from: voter});
+      eventEmitted = false;
+      if (tx.logs[0].event == "LogVote") {
+        eventEmitted = true;
+      }
+      assert.equal(eventEmitted, true, 'voter vote to proposal')
+
+      var isVoter = await cip.voters(voter)
+      assert.equal(true, isVoter, "address is a voter");
+
+      var prevBalance = await web3.eth.getBalance(citizenApplicant);
+      tx = await cip.applyForApprover({from: congressmanApprover});
+      eventEmitted = false;
+      if (tx.logs[0].event == "LogApproverApply") {
+        eventEmitted = true;
+      }
+      assert.equal(eventEmitted, true, 'log apply for 1st approver')
+
+      tx = await cip.applyForApprover({from: presidentApprover});
+      eventEmitted = false;
+      if (tx.logs[0].event == "LogApproverApply") {
+        eventEmitted = true;
+      }
+      assert.equal(eventEmitted, true, 'log apply for 2nd approver')
+
+      tx = await cip.approve(0, {from: congressmanApprover, value: REWARD_AMOUNT});
+      eventEmitted = false;
+      if (tx.logs[0] == null) {
+        eventEmitted = true;
+      }
+      assert.equal(eventEmitted, true, 'should be true since proposal not yet fully approved')
+
+      tx = await cip.approve(0, {from: presidentApprover, value: REWARD_AMOUNT});
+      eventEmitted = false;
+      if (tx.logs[0].event == "LogApprove") {
+        eventEmitted = true;
+      }
+      assert.equal(eventEmitted, true, 'should be true since proposal is fully approved')
+
+      var result = await cip.readProposal(0);
+      await cip.withdrawPayments(citizenApplicant);
+
+      var balance = await web3.eth.getBalance(citizenApplicant);
+      assert.equal(result["approver"][1], presidentApprover, "Approver assgined.");
+      assert.equal(result["status"], 3, "Status should be approved.");
+      assert.equal(result["votes"], 2, "There should be 2 vote.");
+      assert.notEqual(result["proof"], 0x0, "Proposal has now proof of approval.");
+      assert.equal(balance, new BN(prevBalance).add(new BN(REWARD_AMOUNT).mul(new BN(result["votes"]))).toString(), "Applicant balance greater than the previous.");
+
+      tx = await cip.close(0, {from: owner});
+      eventEmitted = false;
+      if (tx.logs[0].event == "LogClose") {
+        eventEmitted = true;
+      }
+      assert.equal(eventEmitted, true, 'log close for proposal from owner')
+
+      result = await cip.readProposal(0);
+      assert.equal(result["status"], 4, "Owner already closed");
+
+      tx = await cip.submit("Blockchain voting system", 
+        "Ethereum powered blockchain system for private and secured election", 
+        "Broken election rules and easy to manipulate", 
+        "Fair election", 
+        {from: citizenApplicant});
+
+      result = await cip.readProposal(1);
+      const count = await cip.getNumberOfProposals({from: owner});
+
+      assert.equal(result["status"], 0, "Status should be Submitted");
+      assert.equal(count, 2, "2 proposals should already be in the container");
     });
   })
 
@@ -68,6 +181,14 @@ contract("CityImprovement", accounts => {
     it("applicant cannot apply as voter", async () => {
       await cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
       await catchRevert(cip.applyForVoter({from: applicant}));
+    });
+
+    it("voter already voted", async () => {
+      await cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
+      cip.applyForVoter({from: voter})
+      cip.vote(0, {from: voter})
+      let done = await cip.doneVoting(0, voter);
+      assert.equal(done, true, "Address of voter already voted");
     });
   })
 
@@ -99,6 +220,17 @@ contract("CityImprovement", accounts => {
       assert.equal(result["votes"], 1, "There should be 1 vote.");
       assert.equal(result["proof"], 0x0, "No proof of approval yet.");
       assert.equal(balance, new BN(prevBalance).toString(), "Applicant balance should not change.");
+    });
+
+    it("approver already approved", async () => {
+      await cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
+      await cip.applyForVoter({from: voter})
+      await cip.vote(0, {from: voter})
+      await cip.applyForApprover({from: approver})
+      await cip.approve(0, {from: approver, value: REWARD_AMOUNT});
+
+      let done = await cip.doneApproving(0, approver);
+      assert.equal(done, true, "Address of approver already approved");
     });
   })
 

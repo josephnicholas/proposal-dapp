@@ -23,6 +23,7 @@ class App extends Component {
     applyVoterBtn: false,
     applyApproverBtn: false,
     applicantState: false,
+    ownerState: false,
     approverDone: false,
     pendingPayments: 0,
     cardProposals: null
@@ -63,6 +64,7 @@ class App extends Component {
     const aVoterState = await contract.methods.voters(accounts[0]).call();
     const aApproverState = await contract.methods.approvers(accounts[0]).call();
     const applicantState = await contract.methods.applicants(accounts[0]).call();
+    const ownerState = await contract.methods.owner().call() == accounts[0];
     const pending = await contract.methods.payments(accounts[0]).call({ from: accounts[0] });
 
     for (let i = 0; i < response; i++) { 
@@ -75,7 +77,8 @@ class App extends Component {
    this.setState({ applyVoterBtn: aVoterState });
    this.setState({ applyApproverBtn: aApproverState });
    this.setState({ applicantState: applicantState });
-   this.setState({pendingPayments: pending});
+   this.setState({ pendingPayments: pending });
+   this.setState({ ownerState: ownerState });
 
    await this.handleCardRender(this.state.proposalCount);
   };
@@ -104,10 +107,6 @@ class App extends Component {
     const responseApprovals = await contract.methods.improvements(id).call();
     const votes = responseApprovals["votes"];
     const approvals = responseApprovals["approvals"];
-    console.log("Votes: " + votes);
-    console.log("Approvals: " + approvals);
-    console.log("Status " + responseApprovals["approvals"]);
-    console.log("Id " + id);
 
     if (responseApprovals["approvals"] > 0) {
       await contract.methods.approve(id).send({ from: accounts[0], value: new web3.utils.BN(REWARD_AMOUNT).mul(new web3.utils.BN(votes)) });
@@ -204,7 +203,7 @@ class App extends Component {
     const array = [];
     
     for (let i = 0; i < count; i++) {
-      const [votes, approvals, closed] = await this.getProposalStats(i);
+      const [ votes, approvals, closed ] = await this.getProposalStats(i);
         array.push(<Card width={"auto"} maxWidth={"540px"} px={[3, 3, 4]}>
         <Heading>{this.state.titles[i]}</Heading>
           <Box>
@@ -231,19 +230,19 @@ class App extends Component {
             </Text>
           </Box>
     
-          <Button disabled={ this.state.applicantState || await this.handleVoteButton(i) || await this.handleClosed(i)} onClick={() => this.vote(i)} width={[1, "auto", 1]} mb={1}>
+          <Button disabled={ await this.handleNoRoleAddress() || this.state.applicantState || this.state.ownerState  || this.state.applyApproverBtn || await this.handleVoteButton(i) || await this.handleClosed(i) } onClick={() => this.vote(i)} width={[1, "auto", 1]} mb={1}>
             Vote
           </Button>
         
-          <Button disabled={ this.state.applicantState || await this.handleApproveButton(i) || await this.handleClosed(i) } className="approve" onClick={() => this.approve(i)} width={[1, "auto", 1]} mb={1}>
+          <Button disabled={ await this.handleNoRoleAddress() || this.state.applicantState || this.state.ownerState || this.state.applyVoterBtn || await this.handleApproveButton(i) || await this.handleClosed(i) } className="approve" onClick={() => this.approve(i)} width={[1, "auto", 1]} mb={1}>
             Approve
           </Button>
 
-          <Button disabled={ this.state.applicantState || await this.handleApproveButton(i) || await this.handleClosed(i) } onClick={() => this.reject(i)} width={[1, "auto", 1]} mb={1}>
+          <Button disabled={ await this.handleNoRoleAddress() || this.state.applicantState || this.state.ownerState || this.state.applyVoterBtn || await this.handleApproveButton(i) || await this.handleClosed(i) } onClick={() => this.reject(i)} width={[1, "auto", 1]} mb={1}>
             Reject
           </Button>
     
-          <Button.Outline  disabled={ this.state.applicantState || await this.handleClosed(i) } className="close" onClick={() => this.close(i)} width={[1, "auto", 1]} mt={[2, 0, 0]}>
+          <Button.Outline  disabled={ !this.state.ownerState  || await this.handleClosed(i) } className="close" onClick={() => this.close(i)} width={[1, "auto", 1]} mt={[2, 0, 0]}>
             Close
           </Button.Outline>
         </Card>);
@@ -256,7 +255,15 @@ class App extends Component {
     if (this.state.pendingPayments > 0) {
       await contract.methods.withdrawPayments(accounts[0]).send({from: accounts[0]});
     }
-  }
+  };
+
+  handleNoRoleAddress = async() => {
+    const { accounts, contract } = this.state;
+    const isApplicant = await contract.methods.applicants(accounts[0]).call();
+    const isApprover = await contract.methods.approvers(accounts[0]).call();
+    const isVoter = await contract.methods.voters(accounts[0]).call();
+    return (!isApplicant && !isApprover && !isVoter);
+  };
 
    render() {
     if (!this.state.web3) {
@@ -319,8 +326,8 @@ class App extends Component {
                   </Box>
               </Flex>
               <Box>
-                <Button type='reset' size={'medium'} onClick={() => this.handleClear()} mr={1}>Clear</Button>
-                <Button type='submit' size={'medium'} color={'green'} ml={1}>Submit</Button>
+                <Button disabled={ this.state.ownerState || this.state.applyApproverBtn || this.state.applyVoterBtn } type='reset' size={'medium'} onClick={() => this.handleClear()} mr={1}>Clear</Button>
+                <Button disabled={ this.state.ownerState || this.state.applyApproverBtn || this.state.applyVoterBtn } type='submit' size={'medium'} color={'green'} ml={1}>Submit</Button>
               </Box>
             </Form>
             <Flex>
@@ -332,14 +339,14 @@ class App extends Component {
                 {this.state.cardProposals}
             </Flex>
             <Box>
-              <Button disabled={this.state.applyApproverBtn || this.state.applyVoterBtn || this.state.applicantState} className="applyApprover" onClick={() => this.applyForApprover()} width={[1, "auto", "auto"] }mt={2} mr={2}>
+              <Button disabled={ this.state.ownerState || this.state.applyApproverBtn || this.state.applyVoterBtn || this.state.applicantState} className="applyApprover" onClick={() => this.applyForApprover()} width={[1, "auto", "auto"] }mt={2} mr={2}>
                 Apply as Approver
               </Button>
-              <Button disabled={this.state.applyVoterBtn || this.state.applyApproverBtn || this.state.applicantState} className="applyVoter" onClick={() => this.applyForVoter()} width={[1, "auto", "auto"]} mt={2} mr={2}>
+              <Button disabled={ this.state.ownerState || this.state.applyVoterBtn || this.state.applyApproverBtn || this.state.applicantState} className="applyVoter" onClick={() => this.applyForVoter()} width={[1, "auto", "auto"]} mt={2} mr={2}>
                 Apply as Voter
               </Button>
             </Box>
-            <div>The stored value is: {this.state.proposalCount}</div>
+            <Text>Proposal count: {this.state.proposalCount}</Text>
           </Box>
         </Box>
       </BaseStyles>
