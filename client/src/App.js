@@ -108,10 +108,17 @@ class App extends Component {
     const votes = responseApprovals["votes"];
     const approvals = responseApprovals["approvals"];
 
-    if (responseApprovals["approvals"] > 0) {
-      await contract.methods.approve(id).send({ from: accounts[0], value: new web3.utils.BN(REWARD_AMOUNT).mul(new web3.utils.BN(votes)) });
-    } else {
-      await contract.methods.approve(id).send({ from: accounts[0] });
+    try {
+      if (responseApprovals["approvals"] > 0) {
+        await contract.methods.approve(id).send({ from: accounts[0], value: new web3.utils.BN(REWARD_AMOUNT).mul(new web3.utils.BN(votes)) });
+      } else {
+        await contract.methods.approve(id).send({ from: accounts[0] });
+      }
+    } catch(error) {
+      alert(
+        "Proposal should be voted first"
+      );
+      console.error(error);
     }
   };
   

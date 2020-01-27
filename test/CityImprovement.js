@@ -373,4 +373,38 @@ contract("CityImprovement", accounts => {
       assert.equal(balance, new BN(prevBalance).add(new BN(REWARD_AMOUNT).mul(new BN(result["votes"]))).toString(), "Applicant balance greater than the previous.");
     });
   })
+  contract("owner pausing contract", async() => {
+    it("Owner can pause contract", async () => {
+      let tx = await cip.pause({from: owner});
+      let eventEmitted = false;
+      if (tx.logs[0].event == "Paused") {
+        eventEmitted = true;
+      }
+
+      assert.equal(eventEmitted, true, 'owner contract paused')
+
+      await catchRevert(cip.submit("New MTR Proposal", 
+        "New Route to Manial to Cebu", 
+        "Traffice Jam", 
+        "More Transportation", 
+        { from: applicant }));
+    })
+  })
+
+  it("Owner paused and unpaused then applicant can apply", async () => {
+    let tx = await cip.pause({from: owner});
+    let eventEmitted = false;
+    if (tx.logs[0].event == "Paused") {
+      eventEmitted = true;
+    }
+
+    assert.equal(eventEmitted, true, 'owner contract paused')
+
+    await catchRevert(cip.submit("New MTR Proposal", 
+      "New Route to Manial to Cebu", 
+      "Traffice Jam", 
+      "More Transportation", 
+      { from: applicant }));
+  })
+})
 });
