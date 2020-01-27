@@ -148,6 +148,7 @@ contract CityImprovement is Proposal, PullPayment, Ownable, Pausable {
           require(improvements[id].status == Proposal.State.Submitted, "Proposal status should still be submitted");
           improvements[id].approver.push(msg.sender);
           improvements[id].status = Proposal.State.Rejected;
+          applicants[msg.sender] = true;
           emit LogReject(id);
       }
         
