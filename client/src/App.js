@@ -211,7 +211,7 @@ class App extends Component {
     const array = [];
     
     for (let i = 0; i < count; i++) {
-      const [ votes, approvals, closed ] = await this.getProposalStats(i);
+      const [ votes, approvals, closed, rejected ] = await this.getProposalStats(i);
         array.push(<Card width={"auto"} maxWidth={"540px"} px={[3, 3, 4]}>
         <Heading>{this.state.titles[i]}</Heading>
           <Box>
