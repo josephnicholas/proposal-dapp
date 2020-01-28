@@ -89,10 +89,19 @@ class App extends Component {
     
     const votes = proposal["votes"];
     const approvals = proposal["approvals"];
-    const closed = proposal["status"] == 4;
-    const rejected = proposal["status"] == 2;
-
-    return [votes, approvals, closed, rejected];
+    let stat = ""
+    switch(proposal["status"]) {
+      case "2":
+        stat = "Rejected";
+        break;
+      case "4":
+        stat = "Closed";
+        break;
+      default:
+        stat = "In Progress";
+        break;
+    }
+    return [votes, approvals, stat];
   }
 
   applyForApprover = async () => {
@@ -149,11 +158,6 @@ class App extends Component {
   close = async (id) => {
     const { accounts, contract } = this.state;
     await contract.methods.close(id).send({ from: accounts[0] });
-
-    const proposalResponse = await contract.methods.readProposal(id).call();
-
-    console.log("Closed " + proposalResponse["title"]);
-    console.log("Status " +proposalResponse["status"]);
   };
 
   submit = async (event) => {
@@ -211,7 +215,7 @@ class App extends Component {
     const array = [];
     
     for (let i = 0; i < count; i++) {
-      const [ votes, approvals, closed, rejected ] = await this.getProposalStats(i);
+      const [ votes, approvals, stat ] = await this.getProposalStats(i);
         array.push(<Card width={"auto"} maxWidth={"540px"} px={[3, 3, 4]}>
         <Heading>{this.state.titles[i]}</Heading>
           <Box>
@@ -234,13 +238,7 @@ class App extends Component {
 
           <Box>
             <Text mb={1}>
-              <strong>Rejected:</strong> { rejected }
-            </Text>
-          </Box>
-
-          <Box>
-            <Text mb={1}>
-              <strong>Closed:</strong> { closed.toString() }
+              <strong>Status:</strong> { stat }
             </Text>
           </Box>
     
