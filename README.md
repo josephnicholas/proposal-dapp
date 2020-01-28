@@ -36,7 +36,7 @@ Below is a high level explanation of what this decentralized application does an
 
 The *City improvement* Dapp will be composed of the following entities:
 
-- **Owner** - The *owner* is the administrator of the proposal system. The owner's responsibility is to `close` the proposal if it's alread been      voted and approved. It is also the owner's responsiblity to `pause` the Dapp whenver there are unforeseen errors during the Dapp's usage cycle.
+- **Owner** - The *owner* is the administrator of the proposal system. The owner's responsibility is to `close` the proposal if it's already been      voted and approved. It is also the owner's responsiblity to `pause` the Dapp whenver there are unforeseen errors during the Dapp's usage cycle.
 
 - **Applicant** - The *applicant* is the one that `submits` a proposal to the system. The *applicant* can only apply **1** proposal at a time, this is to prevent spamming of applications which will be hard for the system to manage and for the other members to review. The *applicant* can only apply again if his/her proposal is approved/rejected.
 
@@ -47,6 +47,30 @@ The *City improvement* Dapp will be composed of the following entities:
 - **Voter** - The *voter* is the one that `votes` for the proposal. The number of **votes** is multiplied to the reward amount which will be then received by the *applicant*.
 
 - **Proposal** - The *proposal* is the document that details the *applicant's* proposal. When `approved` some of the details are being hashed to serve as a proof that this kind of proposal is already in the system *(This will be used in a later project stage)*.
+
+**Approving a proposal**
+
+The following are the steps on how to approve a City improvement proposal:
+
+- The **applicant** will create a new proposal by inputting the *title*, *description*, *problem*, and *solution* of a improvement project. Once the proposal has been successfully submitted the `address` will be marked as an *applicant*.
+
+    Note: Once the address is marked as an applicant it can't be applied to another role, like *voter* or *approver*.
+
+- The submitted **proposal/s** will be shown in the front-end and is ready to be *voted*.
+
+- At the **voting** stage, the *voter* will have to apply to be able to vote on a certain contract. Once applied, the *voter's* address will be marked as *voter* and can't change roles. The *voter* can only vote once and will be reflected on the proposal view.
+
+- At the **approval** stage there are 2 preconditions that should already have taken place before *approver* takes action.
+
+    1. The proposal should have atleast once vote.
+    2. The **approver** should already have applied as an approver and marked the address as such.
+
+    When the above conditions are met, the *approver* can take action. The proposal needs to have **2 approvers**, each *approver* will have one approval to the proposal and the final approver will take action. The latter will deposit the reward for the *applicant* to withdraw at the final stage of the process.
+
+    Note: If the *approver* decides to **reject** the proposal, there is no need to follow the 2 precondtions above, instead, the proposal will be marked as rejected, and waiting for the **owner** to close it.
+
+- At this moment, this will be the final stage of the proposal. When the proposal has been *approved* the *applicant* can now `withdraw` the money from the button provided in the front end, receive the reward, and the *applicant's* address will be unmarked.
+    The **owner** will then `close` the proposal to infrom entities that the proposal has already been processed.
 
 ## Development resources
 

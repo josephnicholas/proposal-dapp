@@ -90,8 +90,9 @@ class App extends Component {
     const votes = proposal["votes"];
     const approvals = proposal["approvals"];
     const closed = proposal["status"] == 4;
+    const rejected = proposal["status"] == 2;
 
-    return [votes, approvals, closed];
+    return [votes, approvals, closed, rejected];
   }
 
   applyForApprover = async () => {
@@ -106,7 +107,6 @@ class App extends Component {
     const REWARD_AMOUNT = web3.utils.toWei('1', 'ether');
     const responseApprovals = await contract.methods.improvements(id).call();
     const votes = responseApprovals["votes"];
-    const approvals = responseApprovals["approvals"];
 
     try {
       if (responseApprovals["approvals"] > 0) {
@@ -118,18 +118,20 @@ class App extends Component {
       alert(
         "Proposal should be voted first"
       );
-      console.error(error);
+      console.error(error.message());
     }
   };
   
   reject = async (id) => {
     const { accounts, contract } = this.state;
-
-    await contract.methods.reject(id).send({ from: accounts[0] });
-    const proposalResponse = await contract.methods.readProposal(id).call();
-    
-    console.log("Rejected " +proposalResponse["title"]);
-    console.log("Status " +proposalResponse["status"]);
+    try {
+      await contract.methods.reject(id).send({ from: accounts[0] });
+    } catch (error) {
+      alert(
+        "Proposal should be voted first"
+      );
+      console.error(error.message);
+    }
   };
 
   applyForVoter = async () => {
@@ -141,7 +143,6 @@ class App extends Component {
   vote = async (id) => {
     const { accounts, contract } = this.state;
     await contract.methods.vote(id).send({ from: accounts[0] });
-    const proposalResponse = await contract.methods.readProposal(id).call();
     await this.handleVoteButton(id);
   };
 
@@ -228,6 +229,12 @@ class App extends Component {
           <Box>
             <Text mb={1}>
               <strong>Approvals:</strong> { approvals }
+            </Text>
+          </Box>
+
+          <Box>
+            <Text mb={1}>
+              <strong>Rejected:</strong> { rejected }
             </Text>
           </Box>
 
