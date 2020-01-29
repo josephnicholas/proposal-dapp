@@ -127,7 +127,7 @@ class App extends Component {
       alert(
         "Proposal should be voted first"
       );
-      console.error(error.message());
+      console.error(error.message);
     }
   };
   
