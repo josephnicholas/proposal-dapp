@@ -26,12 +26,12 @@ The *City improvement* Dapp is a tool which promotes a decentralized project sys
 
 This project is implemented in *solidity* which is one of **Ethereum's** smart contract programming languages. Development of this project is made possible by the following tools:
 
-- [Truffle Suite]()
-- [Ganache]()
-- [Metamask]()
-- [MythX]()
+- [Truffle Suite](https://www.trufflesuite.com/)
+- [Ganache](https://www.trufflesuite.com/ganache)
+- [Metamask](https://metamask.io)
+- [MythX](https://mythx.io)
 - [ReactJS]()
-- [OpenZeppelin library of contracts]()
+- [OpenZeppelin library of contracts](https://docs.openzeppelin.com)
 
 There is no current plan in deploying the project on the *Ethereum mainnet* but when the project reaches its usage maturity, by then this will be released to the public and proposed to my small local goverment unit in the *Philippines*. Currently this project will be deployed on **Rinkeby testnet** which will also be enough for doing some demos on our local governing body.
 
@@ -160,5 +160,20 @@ See [Avoiding Common Attacks](avoiding_common_attacks.md)
 
 ## Further improvements
 
+As the Dapp is clearly very unstable because of rapid development, the first few improvements will be fixing some `bugs` in the contract code, more deep test plans, and better UI.
+
+After a better running Dapp some of my improvment wish list are as follows:
+- Implimenting a State machine design pattern to better handle the proposal states.
+- Better colorization of the proposal cards based on the status.
+- Add Upgradeability to the contract.
+- Proposals can have attached files and stored in `IPFS`.
+- Add an oracle for various projects that can be referenced to the proposal list.
+- Make the proposal system more generic, and have a selection proposal templates.
+- The proposal `proof` is still not being used as of the moment, on the next iteration I will create contract search based on the proposal proof to avoid duplicate contracts.
+
 ## Known issues
+
+For the the one reading the code especially the UI code, there are alot to be fixed and bugs are currently lurking. This is my first time to do JS and Front-end development.
+
+If you find any bugs, please submit an issue or better submit a Pull request.
 
