@@ -1,0 +1,456 @@
+{
+  "contractName": "Proof",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "document",
+          "type": "bytes"
+        }
+      ],
+      "name": "notarize",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"document\",\"type\":\"bytes\"}],\"name\":\"notarize\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"notarize(bytes)\":{\"details\":\"Hashes the Proposal and add it as a Proof of approval.\",\"params\":{\"document\":\"Proposal details. \"},\"return\":\"hash of the Proposal.\"}}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/utils/Proof.sol\":\"Proof\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":300},\"remappings\":[]},\"sources\":{\"/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/proposal/Proposal.sol\":{\"keccak256\":\"0xde1032d49e38d74070339b72f8e541e3d0c1f0738fb052940e89a6fa9f2cc067\",\"urls\":[\"bzz-raw://ddfca9c7b212824c1e8c6e02ff48ba2e32ced2b2ff3ac2862b60410db0488735\",\"dweb:/ipfs/QmZ2To6qan5N2rWmrniDKgVDUURBcewfnGFiCkcrbqRPZA\"]},\"/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/utils/Proof.sol\":{\"keccak256\":\"0xcb1f1fd2f41154dbfcc0c347fadf3e2be89f8144406c308a7a0fb0fa4c2ae44b\",\"urls\":[\"bzz-raw://b6112ffb3fbf6d757c9f2192306365d9f363625c35cdf85880d6e13c8d2c8e10\",\"dweb:/ipfs/QmRKAAqmG9VTMP82NpronG8peQAXrJdttfchvjoo87bPLA\"]}},\"version\":1}",
+  "bytecode": "0x61010d610026600b82828239805160001a60731461001957fe5b30600052607381538281f3fe730000000000000000000000000000000000000000301460806040526004361060335760003560e01c8063fb1ace34146038575b600080fd5b60a260048036036020811015604c57600080fd5b810190602081018135640100000000811115606657600080fd5b820183602082011115607757600080fd5b80359060200191846001830284011164010000000083111715609857600080fd5b50909250905060b4565b60408051918252519081900360200190f35b6000828260405180838380828437604051920182900390912097965050505050505056fea265627a7a723158204e8ddf542869dec9221c61a1d44c97fcc1bdd9c8d4f3d2c7b41bc9df6d0fe1ab64736f6c63430005100032",
+  "deployedBytecode": "0x730000000000000000000000000000000000000000301460806040526004361060335760003560e01c8063fb1ace34146038575b600080fd5b60a260048036036020811015604c57600080fd5b810190602081018135640100000000811115606657600080fd5b820183602082011115607757600080fd5b80359060200191846001830284011164010000000083111715609857600080fd5b50909250905060b4565b60408051918252519081900360200190f35b6000828260405180838380828437604051920182900390912097965050505050505056fea265627a7a723158204e8ddf542869dec9221c61a1d44c97fcc1bdd9c8d4f3d2c7b41bc9df6d0fe1ab64736f6c63430005100032",
+  "sourceMap": "60:277:3:-;;132:2:-1;166:7;155:9;146:7;137:37;255:7;249:14;246:1;241:23;235:4;232:33;222:2;;269:9;222:2;293:9;290:1;283:20;323:4;314:7;306:22;347:7;338;331:24",
+  "deployedSourceMap": "60:277:3:-;;;;;;;;;;;;;;;;;;;;;;;;224:111;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;224:111:3;;;;;;;;21:11:-1;5:28;;2:2;;;46:1;43;36:12;2:2;224:111:3;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;224:111:3;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;-1:-1;224:111:3;;-1:-1:-1;224:111:3;-1:-1:-1;224:111:3;:::i;:::-;;;;;;;;;;;;;;;;;290:7;321:8;;311:19;;;;;30:3:-1;22:6;14;1:33;311:19:3;;45:16:-1;;311:19:3;;;;;;;224:111;-1:-1:-1;;;;;;;224:111:3:o",
+  "source": "pragma solidity ^0.5.0;\n\nimport \"../proposal/Proposal.sol\";\nlibrary Proof {\n  \n  /// @dev Hashes the Proposal and add it as a Proof of approval.\n  /// @param document Proposal details. \n  /// @return hash of the Proposal.\n  function notarize(bytes calldata document) external pure returns (bytes32){\n    return keccak256(document);\n  }\n}\n",
+  "sourcePath": "/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/utils/Proof.sol",
+  "ast": {
+    "absolutePath": "/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/utils/Proof.sol",
+    "exportedSymbols": {
+      "Proof": [
+        957
+      ]
+    },
+    "id": 958,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 943,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:3"
+      },
+      {
+        "absolutePath": "/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/proposal/Proposal.sol",
+        "file": "../proposal/Proposal.sol",
+        "id": 944,
+        "nodeType": "ImportDirective",
+        "scope": 958,
+        "sourceUnit": 942,
+        "src": "25:34:3",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 957,
+        "linearizedBaseContracts": [
+          957
+        ],
+        "name": "Proof",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 955,
+              "nodeType": "Block",
+              "src": "298:37:3",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 952,
+                        "name": "document",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 946,
+                        "src": "321:8:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes_calldata_ptr",
+                          "typeString": "bytes calldata"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes_calldata_ptr",
+                          "typeString": "bytes calldata"
+                        }
+                      ],
+                      "id": 951,
+                      "name": "keccak256",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1919,
+                      "src": "311:9:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
+                        "typeString": "function (bytes memory) pure returns (bytes32)"
+                      }
+                    },
+                    "id": 953,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "311:19:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "functionReturnParameters": 950,
+                  "id": 954,
+                  "nodeType": "Return",
+                  "src": "304:26:3"
+                }
+              ]
+            },
+            "documentation": "@dev Hashes the Proposal and add it as a Proof of approval.\n @param document Proposal details. \n @return hash of the Proposal.",
+            "id": 956,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "notarize",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 947,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 946,
+                  "name": "document",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 956,
+                  "src": "242:23:3",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 945,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "242:5:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "241:25:3"
+            },
+            "returnParameters": {
+              "id": 950,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 949,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 956,
+                  "src": "290:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 948,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "290:7:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "289:9:3"
+            },
+            "scope": 957,
+            "src": "224:111:3",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 958,
+        "src": "60:277:3"
+      }
+    ],
+    "src": "0:338:3"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/utils/Proof.sol",
+    "exportedSymbols": {
+      "Proof": [
+        957
+      ]
+    },
+    "id": 958,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 943,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:3"
+      },
+      {
+        "absolutePath": "/home/joseph-dev/ConsensysAcademy/proposal-dapp/contracts/proposal/Proposal.sol",
+        "file": "../proposal/Proposal.sol",
+        "id": 944,
+        "nodeType": "ImportDirective",
+        "scope": 958,
+        "sourceUnit": 942,
+        "src": "25:34:3",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 957,
+        "linearizedBaseContracts": [
+          957
+        ],
+        "name": "Proof",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 955,
+              "nodeType": "Block",
+              "src": "298:37:3",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 952,
+                        "name": "document",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 946,
+                        "src": "321:8:3",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes_calldata_ptr",
+                          "typeString": "bytes calldata"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes_calldata_ptr",
+                          "typeString": "bytes calldata"
+                        }
+                      ],
+                      "id": 951,
+                      "name": "keccak256",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1919,
+                      "src": "311:9:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
+                        "typeString": "function (bytes memory) pure returns (bytes32)"
+                      }
+                    },
+                    "id": 953,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "311:19:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "functionReturnParameters": 950,
+                  "id": 954,
+                  "nodeType": "Return",
+                  "src": "304:26:3"
+                }
+              ]
+            },
+            "documentation": "@dev Hashes the Proposal and add it as a Proof of approval.\n @param document Proposal details. \n @return hash of the Proposal.",
+            "id": 956,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "notarize",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 947,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 946,
+                  "name": "document",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 956,
+                  "src": "242:23:3",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 945,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "242:5:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "241:25:3"
+            },
+            "returnParameters": {
+              "id": 950,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 949,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 956,
+                  "src": "290:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 948,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "290:7:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "289:9:3"
+            },
+            "scope": 957,
+            "src": "224:111:3",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 958,
+        "src": "60:277:3"
+      }
+    ],
+    "src": "0:338:3"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {
+    "4": {
+      "events": {},
+      "links": {},
+      "address": "0xEF243C3E2fd7bDF1aD0e25Ebae6E9ffE23d6dE00",
+      "transactionHash": "0x947686c52aab259fe3fdcf4b224874415b1aa34859d4cd09e4cd024e698fb0ec"
+    },
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0xFE45399aC69481485fae5F4c535675aeA267f27A",
+      "transactionHash": "0xf98ce1b6ac703a8ba6f853275d9f64d34b538c123dd4e35c501308c2a3a24d7b"
+    }
+  },
+  "schemaVersion": "3.0.21",
+  "updatedAt": "2020-01-29T13:14:08.662Z",
+  "networkType": "ethereum",
+  "devdoc": {
+    "methods": {
+      "notarize(bytes)": {
+        "details": "Hashes the Proposal and add it as a Proof of approval.",
+        "params": {
+          "document": "Proposal details. "
+        },
+        "return": "hash of the Proposal."
+      }
+    }
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
