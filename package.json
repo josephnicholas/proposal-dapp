@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/josephnicholas/proposal-dapp#readme",
   "devDependencies": {
-    "@openzeppelin/contracts": "^2.4.0"
-  },
-  "dependencies": {}
+    "@openzeppelin/contracts": "^2.5.1"
+  }
 }
