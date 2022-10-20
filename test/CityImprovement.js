@@ -28,7 +28,7 @@ contract("CityImprovement", accounts => {
       const tx = await cip.submit("New MTR Proposal", "New Route to Manial to Cebu", "Traffice Jam", "More Transportation", {from: applicant});
       
       let eventEmitted = false;
-      if (tx.logs[0].event == "LogSubmit") {
+      if (tx.logs[0].event === "LogSubmit") {
         eventEmitted = true;
       }
 

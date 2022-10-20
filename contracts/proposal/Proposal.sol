@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.8.0;
 
 /// @title An interface for different kinds of proposals.
 /// @author Joseph Nicholas R. Alcantara.
